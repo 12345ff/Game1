@@ -7,14 +7,14 @@ define(["require", "exports"], function (require, exports) {
             this.name = "";
             this.UIs = [];
             this.background = document.getElementById("background");
-            this.background.src = "";
+            this.background.src = "./image/none.png";
         }
         call() {
             var _a;
             for (var i = 0; i < this.UIs.length; i++) {
                 (_a = document.getElementById("GameUI")) === null || _a === void 0 ? void 0 : _a.appendChild(this.UIs[i]);
             }
-            this.background.src = "";
+            this.background.src = "./image/none.png";
         }
         move() {
             var _a;
