@@ -1,0 +1,142 @@
+* {
+    margin: 0 auto;
+    user-select: none;
+    background-size: cover;
+}
+html {
+    --ScreenSizeWidth: 600;
+    --ScreenSizeHeight: 600;
+    background-color: #ccc;
+}
+#background {
+    position: absolute;
+    top: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(var(--ScreenSizeWidth) * 1px);
+    height: calc(var(--ScreenSizeHeight) * 1px);
+    image-rendering: pixelated;
+    background-color: white;
+    z-index: 1;
+}
+#GameCanvas {
+    position: absolute;
+    top: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(var(--ScreenSizeWidth) * 1px);
+    height: calc(var(--ScreenSizeHeight) * 1px);
+    background-color: rgba(0, 0, 0, 0);
+    z-index: 2;
+}
+#GameUI {
+    width: calc(var(--ScreenSizeWidth) * 1px);
+    height: calc(var(--ScreenSizeHeight) * 1px);
+    position: absolute;
+    top: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+}
+.TitleBtn {
+    position: absolute;
+    width: 250px;
+    height: 50px;
+    border: none;
+    border-bottom: 2px solid #1A2026;
+    background: none;
+    font-size: 20px;
+    overflow: hidden;
+}
+.TitleBtn::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, #7E8BD9, rgba(0,0,0,0));
+    transform: translateX(-100%);
+    transition: transform cubic-bezier(0.215, 0.61, 0.355, 1) 0.4s;
+}
+.TitleBtn:hover::before {
+    transform: translateX(0);
+}
+
+.settingField {
+    background: #F2F2F2;
+    text-align: center;
+    overflow: hidden;
+}
+.settingField .SettingList {
+    width: 100%;
+    padding: 0;
+    list-style-type: none;
+}
+.settingField .SettingList .SettingText {
+    position: relative;
+    text-align: center;
+    background: #0A0D40;
+    color: #F2F2F2;
+    line-height: 30px;
+    height: 30px;
+    text-decoration: none;
+}
+.settingField .SettingList .SettingLi {
+    position: relative;
+    height: 30px;
+    background-color: #7E8BD9;
+}
+.settingField .SettingList .SettingLi .Setting_Label {
+    position: absolute;
+    top: 5px;
+    left: 50%;
+    transform: translateX(-100%);
+    text-align: center;
+}
+.settingField .SettingList .SettingLi .Setting_Input {
+    position: absolute;
+    top: 5px;
+    left: 50%;
+    text-align: center;
+}
+
+.OptionClose {
+    height: 30px;
+}
+
+.SettingBtn {
+    position: absolute;
+    left: 0;
+    display: block;
+    padding: 0;
+    width: 150px;
+    height: 30px;
+    border: none;
+    background-color: #7E8BD9;
+    color: #F2F2F2;
+}
+
+.SettingDiv {
+    position: absolute;
+    top: 0;
+    left: 150px;
+    width: 450px;
+    display: none;
+    height: 100%;
+    background-color: #A3ABD9;
+    color: #181D26;
+}
+.SetText {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-110%);
+    display: block;
+    height: 30px;
+}
+.SetInput {
+    position: absolute;
+    left: 50%;
+    display: block;
+    height: 30px;;
+}

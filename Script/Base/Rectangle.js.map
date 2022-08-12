@@ -1,0 +1,1 @@
+{"version":3,"file":"Rectangle.js","sourceRoot":"","sources":["../../../Script/Base/Rectangle.ts"],"names":[],"mappings":";;;;IAEA,MAAa,SAAS;QAGlB,YAAY,CAAQ,EAAE,CAAQ,EAAE,KAAa,EAAE,MAAc;YACzD,IAAI,CAAC,QAAQ,GAAG,IAAI,mBAAQ,CAAC,CAAC,EAAC,CAAC,CAAC,CAAC;YAClC,IAAI,CAAC,IAAI,GAAG,IAAI,WAAI,CAAC,KAAK,EAAE,MAAM,CAAC,CAAC;QACxC,CAAC;KACJ;IAPD,8BAOC"}
