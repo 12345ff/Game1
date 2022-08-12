@@ -10,6 +10,11 @@ define(["require", "exports", "./Scene", "../Data/GlobalData", "../Object/Hero",
             this.Objects = [];
             this.DamageObjs = [];
             this.nowFlame = 0;
+            this.TouchBegin = null;
+            this.TouchBeginTime = null;
+            this.TouchNow = null;
+            this.Circle_Begin = document.getElementById("BigCircle");
+            this.Circle_Control = document.getElementById("ControlCircle");
             this.fieldImageName = fieldImageName;
             let img1 = document.createElement("img");
             let img2 = document.createElement("img");
@@ -34,6 +39,25 @@ define(["require", "exports", "./Scene", "../Data/GlobalData", "../Object/Hero",
             this.enemys[0].position = new Position_1.Position(500, 300);
         }
         update() {
+            if (this.TouchBegin != null && this.TouchNow != null) {
+                let saX = this.TouchNow.speed.x - this.TouchBegin.speed.x;
+                let saY = this.TouchNow.speed.y - this.TouchBegin.speed.y;
+                const max = 150;
+                if (saX > max)
+                    saX = max;
+                else if (saX < -max)
+                    saX = -max;
+                if (saY > max)
+                    saY = max;
+                else if (saY < -max)
+                    saY = -max;
+                this.Circle_Control.style.top = `${parseInt(this.Circle_Begin.style.top) + saY}px`;
+                this.Circle_Control.style.left = `${parseInt(this.Circle_Begin.style.left) + saX}px`;
+                saX = saX / 300 * this.hero.speed;
+                saY = saY / 300 * this.hero.speed;
+                if (this.hero.Status == "Work" || this.hero.Status == "Stand")
+                    this.hero.move(saX, saY);
+            }
             //主人公の処理
             this.hero.CharacteUpdate(this.keys, this);
             //敵の処理
@@ -129,6 +153,10 @@ define(["require", "exports", "./Scene", "../Data/GlobalData", "../Object/Hero",
             super.call();
             this.background.src = `./image/Field/${this.fieldImageName}`;
         }
+        move() {
+            this.Circle_Begin.style.display = "none";
+            this.Circle_Control.style.display = "none";
+        }
         keydown(keyType) {
             this.keys.push(keyType);
             if (keyType == GlobalData_1.GlobalData.Instance.KeySet["Cansel"]) {
@@ -143,6 +171,38 @@ define(["require", "exports", "./Scene", "../Data/GlobalData", "../Object/Hero",
                 }
             }
             this.keys = keys;
+        }
+        touchStart(Touch) {
+            this.TouchBegin = Touch;
+            this.TouchBeginTime = Date.now();
+            this.Circle_Begin.style.top = Touch.speed.y.toString() + "px";
+            this.Circle_Begin.style.left = Touch.speed.x.toString() + "px";
+            this.Circle_Begin.style.display = "block";
+            this.Circle_Control.style.display = "block";
+        }
+        touchNow(Touch) {
+            this.TouchNow = Touch;
+        }
+        touchEnd(Touch) {
+            this.TouchNow = null;
+            let touchEndTime = Date.now();
+            if (this.TouchBegin != null && this.TouchBeginTime != null && touchEndTime - this.TouchBeginTime < 500) {
+                let saX = Touch.speed.x - this.TouchBegin.speed.x;
+                let saY = Touch.speed.y - this.TouchBegin.speed.y;
+                const max = 150;
+                if (saX > max)
+                    saX = max;
+                else if (saX < -max)
+                    saX = -max;
+                if (saY > max)
+                    saY = max;
+                else if (saY < -max)
+                    saY = -max;
+                this.hero.dush(saX / max, saY / max);
+            }
+            this.TouchBegin = null;
+            this.Circle_Begin.style.display = "none";
+            this.Circle_Control.style.display = "none";
         }
     }
     exports.GameScene = GameScene;

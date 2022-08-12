@@ -30,6 +30,12 @@ define(["require", "exports"], function (require, exports) {
         }
         keyup(keyType) {
         }
+        touchStart(Touch) {
+        }
+        touchNow(Touch) {
+        }
+        touchEnd(Touch) {
+        }
     }
     exports.Scene = Scene;
 });

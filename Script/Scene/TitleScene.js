@@ -16,14 +16,14 @@ define(["require", "exports", "./Scene", "./SceneManager", "./GameStartScene", "
             TitleText.style.fontFamily = "fantasy";
             TitleText.textContent = "BattleGame!";
             StartBtn.className = "TitleBtn";
-            StartBtn.style.top = "calc(100% - 120px)";
+            StartBtn.style.bottom = "120px";
             StartBtn.style.left = "20px";
             StartBtn.textContent = "ゲーム開始";
             StartBtn.addEventListener("click", () => {
                 SceneManager_1.SceneManager.Instance.AddScene(new GameStartScene_1.GameSettingScene());
             });
             SettingBtn.className = "TitleBtn";
-            SettingBtn.style.top = "calc(100% - 60px)";
+            SettingBtn.style.bottom = "10px";
             SettingBtn.style.left = "20px";
             SettingBtn.textContent = "設定";
             SettingBtn.addEventListener("click", () => {

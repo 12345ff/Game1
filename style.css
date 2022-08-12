@@ -6,6 +6,60 @@
 html {
     background-color: #ccc;
 }
+#touchZone {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+}
+.skillButton {
+    position: absolute;
+    bottom: 100px;
+    left: 50%;
+    width: 200px;
+    height: 200px;
+    font-size: 50px;
+    background-color: black;
+    color: white;
+    border: 10px solid white;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 200px;
+}
+#skill_1 {
+    transform: translateX(0);
+}
+#skill_2 {
+    transform: translateX(-110%);
+}
+#skill_3 {
+    transform: translateX(-220%);
+}
+#skill_super {
+    transform: translateX(110%);
+}
+
+#BigCircle {
+    position: fixed;
+    width: 300px;
+    height: 300px;
+    background-color: rgba(200, 200, 200, 0.5);
+    border: 10px solid gray;
+    display: none;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+}
+#ControlCircle {
+    position: fixed;
+    width: 50px;
+    height: 50px;
+    background-color: rgb(200, 200, 200);
+    border: 5px solid gray;
+    transform: translate(-50%, -50%);
+    display: none;
+    border-radius: 50%;
+}
 #background {
     position: absolute;
     top: 20px;
@@ -17,6 +71,7 @@ html {
     aspect-ratio: 1 / 1;
     image-rendering: pixelated;
     background-color: white;
+    overflow: hidden;
     z-index: 1;
 }
 #GameCanvas {
@@ -29,6 +84,7 @@ html {
     min-width: 600px;
     aspect-ratio: 1 / 1;
     background-color: rgba(0, 0, 0, 0);
+    overflow: hidden;
     z-index: 2;
 }
 #GameUI {
@@ -40,12 +96,35 @@ html {
     top: 20px;
     left: 50%;
     transform: translateX(-50%);
+    overflow: hidden;
     z-index: 3;
 }
+
+.UIButton {
+    position: absolute;
+    bottom: 400px;
+    left: 50%;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    border: 10px solid gray;
+    font-size: 100px;
+    font-weight: 10px;
+    color: white;
+}
+#OkButton {
+    transform: translateX(50px);
+    background-color: rgb(0, 90, 255);
+}
+#CanselButton {
+    transform: translateX(calc(-100% - 50px));
+    background-color: rgb(255, 75, 0);
+}
+
 .TitleBtn {
     position: absolute;
-    width: 250px;
-    height: 50px;
+    width: 300px;
+    height: 100px;
     border: none;
     border-bottom: 2px solid #1A2026;
     background: none;
@@ -82,19 +161,20 @@ html {
     text-align: center;
     background: #0A0D40;
     color: #F2F2F2;
-    line-height: 30px;
-    height: 30px;
+    line-height: 50px;
+    height: 50px;
     text-decoration: none;
 }
 .settingField .SettingList .SettingLi {
     position: relative;
-    height: 30px;
+    height: 50px;
     background-color: #7E8BD9;
 }
 .settingField .SettingList .SettingLi .Setting_Label {
     position: absolute;
     top: 5px;
     left: 50%;
+    height: 100%;
     transform: translateX(-100%);
     text-align: center;
 }
@@ -102,11 +182,12 @@ html {
     position: absolute;
     top: 5px;
     left: 50%;
+    height: 100%;
     text-align: center;
 }
 
 .OptionClose {
-    height: 30px;
+    height: 50px;
 }
 
 .SettingBtn {
@@ -115,9 +196,10 @@ html {
     display: block;
     padding: 0;
     width: 150px;
-    height: 30px;
+    height: 80px;
     border: none;
     background-color: #7E8BD9;
+    font-size: 30px;
     color: #F2F2F2;
 }
 
@@ -125,7 +207,7 @@ html {
     position: absolute;
     top: 0;
     left: 150px;
-    width: 450px;
+    width: 100%;
     display: none;
     height: 100%;
     background-color: #A3ABD9;
@@ -136,11 +218,13 @@ html {
     left: 50%;
     transform: translateX(-110%);
     display: block;
-    height: 30px;
+    height: 80px;
+    font-size: 30px;
 }
 .SetInput {
     position: absolute;
     left: 50%;
     display: block;
-    height: 30px;;
+    height: 80px;
+    font-size: 30px;
 }

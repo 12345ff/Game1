@@ -1,7 +1,7 @@
 define(["require", "exports", "../Base/Size", "./FieldFunction", "./EnemyPattern"], function (require, exports, Size_1, FieldFunction_1, EnemyPattern_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.GlobalData = void 0;
+    exports.GameTouch = exports.GlobalData = void 0;
     class GlobalData {
         constructor() {
             //---
@@ -42,5 +42,12 @@ define(["require", "exports", "../Base/Size", "./FieldFunction", "./EnemyPattern
     exports.GlobalData = GlobalData;
     //
     GlobalData.Instance = new GlobalData();
+    class GameTouch {
+        constructor(element, point) {
+            this.element = element;
+            this.speed = point;
+        }
+    }
+    exports.GameTouch = GameTouch;
 });
 //# sourceMappingURL=GlobalData.js.map

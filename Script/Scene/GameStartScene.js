@@ -36,8 +36,8 @@ define(["require", "exports", "./Scene", "./SceneManager", "../Skill/Skills", ".
             EnemySettingBtn.textContent = "敵設定";
             FieldSettingBtn.textContent = "フィールド設定";
             CharacterSettingBtn.style.top = "50px";
-            EnemySettingBtn.style.top = "80px";
-            FieldSettingBtn.style.top = "110px";
+            EnemySettingBtn.style.top = "130px";
+            FieldSettingBtn.style.top = "210px";
             CharacterSettingBtn.addEventListener("click", () => {
                 CharacterSettingBtn.style.backgroundColor = "#A3ABD9";
                 EnemySettingBtn.style.backgroundColor = "#7E8BD9";
@@ -108,8 +108,8 @@ define(["require", "exports", "./Scene", "./SceneManager", "../Skill/Skills", ".
                 SkillSet_Text.className = "SetText";
                 SkillSet_Input.className = "SetInput";
                 SkillSet_Text.textContent = Skills[key];
-                SkillSet_Text.style.top = `${90 + 40 * i}px`;
-                SkillSet_Input.style.top = `${90 + 40 * i}px`;
+                SkillSet_Text.style.top = `${140 + 90 * i}px`;
+                SkillSet_Input.style.top = `${140 + 90 * i}px`;
                 i++;
                 const i2 = i;
                 for (let key2 in Skills_1.SkillList) {
@@ -175,8 +175,8 @@ define(["require", "exports", "./Scene", "./SceneManager", "../Skill/Skills", ".
                 SkillSet_Text.className = "SetText";
                 SkillSet_Input.className = "SetInput";
                 SkillSet_Text.textContent = Skills[key];
-                SkillSet_Text.style.top = `${150 + 40 * e}px`;
-                SkillSet_Input.style.top = `${150 + 40 * e}px`;
+                SkillSet_Text.style.top = `${230 + 90 * e}px`;
+                SkillSet_Input.style.top = `${230 + 90 * e}px`;
                 e++;
                 const i2 = e;
                 for (let key2 in Skills_1.SkillList) {
@@ -211,8 +211,8 @@ define(["require", "exports", "./Scene", "./SceneManager", "../Skill/Skills", ".
             Pattern_Text.className = "SetText";
             Pattern_Input.className = "SetInput";
             Pattern_Text.textContent = "行動パターン";
-            Pattern_Text.style.top = "100px";
-            Pattern_Input.style.top = "100px";
+            Pattern_Text.style.top = "140px";
+            Pattern_Input.style.top = "140px";
             for (let key in EnemyPattern_1.EnemyPattern) {
                 let opt = document.createElement("option");
                 opt.value = key;
@@ -248,8 +248,8 @@ define(["require", "exports", "./Scene", "./SceneManager", "../Skill/Skills", ".
             FieldText_Image.className = "SetText";
             FieldSet_Image.className = "SetInput";
             FieldText_Image.textContent = "フィールド画像";
-            FieldText_Image.style.top = "80px";
-            FieldSet_Image.style.top = "80px";
+            FieldText_Image.style.top = "130px";
+            FieldSet_Image.style.top = "130px";
             const imageNames = { "林": "Field1.png" };
             for (let key in imageNames) {
                 let opt = document.createElement("option");
@@ -267,8 +267,8 @@ define(["require", "exports", "./Scene", "./SceneManager", "../Skill/Skills", ".
             FieldText_Func.className = "SetText";
             FieldSet_Func.className = "SetInput";
             FieldText_Func.textContent = "フィールドギミック";
-            FieldText_Func.style.top = "110px";
-            FieldSet_Func.style.top = "110px";
+            FieldText_Func.style.top = "210px";
+            FieldSet_Func.style.top = "210px";
             for (let key in FieldFunction_1.FieldFunction) {
                 let opt = document.createElement("option");
                 opt.value = key;
@@ -282,12 +282,13 @@ define(["require", "exports", "./Scene", "./SceneManager", "../Skill/Skills", ".
             FieldSettingDiv.appendChild(FieldSet_Func);
             //StartBtn
             let StartBtn = document.createElement("button");
-            StartBtn.textContent = "バトル開始";
+            StartBtn.textContent = "開始";
             StartBtn.style.position = "absolute";
             StartBtn.style.width = "150px";
-            StartBtn.style.height = "50px";
+            StartBtn.style.height = "100px";
             StartBtn.style.bottom = "0px";
             StartBtn.style.left = "0px";
+            StartBtn.style.fontSize = "50px";
             StartBtn.style.backgroundColor = "#0A0D40";
             StartBtn.style.color = "#F2F2F2";
             StartBtn.addEventListener("click", () => {

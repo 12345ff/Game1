@@ -435,6 +435,14 @@ define(["require", "exports", "../Base/Position", "../Base/Size", "../Base/Recta
             }
             ctx.drawImage(this.PrivateCanvas, 0, 0);
         }
+        move(speedX, speedY) {
+            this.nowSpeed = new Position_1.Position(speedX, speedY);
+            this.Status = "Work";
+        }
+        dush(directionx, directiony) {
+            this.Status = "Dash";
+            this.nowSpeed = new Position_1.Position(Math.floor(directionx * this.speed * 8), Math.floor(directiony * this.speed * 8));
+        }
     }
     exports.Hero = Hero;
 });
