@@ -4,36 +4,40 @@
     background-size: cover;
 }
 html {
-    --ScreenSizeWidth: 600;
-    --ScreenSizeHeight: 600;
     background-color: #ccc;
 }
 #background {
     position: absolute;
-    top: 50px;
+    top: 20px;
     left: 50%;
     transform: translateX(-50%);
-    width: calc(var(--ScreenSizeWidth) * 1px);
-    height: calc(var(--ScreenSizeHeight) * 1px);
+    width: 95vw;
+    max-width: 800px;
+    min-width: 600px;
+    aspect-ratio: 1 / 1;
     image-rendering: pixelated;
     background-color: white;
     z-index: 1;
 }
 #GameCanvas {
     position: absolute;
-    top: 50px;
+    top: 20px;
     left: 50%;
     transform: translateX(-50%);
-    width: calc(var(--ScreenSizeWidth) * 1px);
-    height: calc(var(--ScreenSizeHeight) * 1px);
+    width: 95vw;
+    max-width: 800px;
+    min-width: 600px;
+    aspect-ratio: 1 / 1;
     background-color: rgba(0, 0, 0, 0);
     z-index: 2;
 }
 #GameUI {
-    width: calc(var(--ScreenSizeWidth) * 1px);
-    height: calc(var(--ScreenSizeHeight) * 1px);
+    width: 95vw;
+    max-width: 800px;
+    min-width: 600px;
+    aspect-ratio: 1 / 1;
     position: absolute;
-    top: 50px;
+    top: 20px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 3;
