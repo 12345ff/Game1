@@ -107,22 +107,20 @@ body {
 
 .UIButton {
     position: absolute;
-    bottom: calc(10vh + 100px);
-    left: 50%;
-    height: 20vh;
-    aspect-ratio: 1 / 1;
-    border-radius: 50%;
+    bottom: calc(10vh + 130px);
+    width: 100px;
+    height: 15vh;
     border: 10px solid gray;
     font-size: 100px;
     font-weight: 10px;
     color: white;
 }
 #OkButton {
-    transform: translateX(50px);
+    right: 0;
     background-color: rgb(0, 90, 255);
 }
 #CanselButton {
-    transform: translateX(calc(-100% - 50px));
+    left: 0;
     background-color: rgb(255, 75, 0);
 }
 
