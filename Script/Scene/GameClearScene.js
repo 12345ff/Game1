@@ -25,10 +25,6 @@ define(["require", "exports", "./Scene", "./SceneManager", "../Data/GlobalData"]
             this.UIs.push(Text);
             this.UIs.push(BackBtn);
         }
-        call() {
-            super.call();
-            this.background.src = "";
-        }
         draw(canvas) {
             canvas.clearRect(0, 0, GlobalData_1.GlobalData.Instance.ScreenSize.width, GlobalData_1.GlobalData.Instance.ScreenSize.height);
             super.draw(canvas);

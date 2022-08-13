@@ -13,6 +13,7 @@ define(["require", "exports", "./Scene", "../Data/GlobalData", "../Object/Hero",
             this.TouchBegin = null;
             this.TouchBeginTime = null;
             this.TouchNow = null;
+            this.longTouch = [15, 15];
             this.Circle_Begin = document.getElementById("BigCircle");
             this.Circle_Control = document.getElementById("ControlCircle");
             this.fieldImageName = fieldImageName;
@@ -39,24 +40,45 @@ define(["require", "exports", "./Scene", "../Data/GlobalData", "../Object/Hero",
             this.enemys[0].position = new Position_1.Position(500, 300);
         }
         update() {
-            if (this.TouchBegin != null && this.TouchNow != null) {
-                let saX = this.TouchNow.speed.x - this.TouchBegin.speed.x;
-                let saY = this.TouchNow.speed.y - this.TouchBegin.speed.y;
-                const max = 150;
-                if (saX > max)
-                    saX = max;
-                else if (saX < -max)
-                    saX = -max;
-                if (saY > max)
-                    saY = max;
-                else if (saY < -max)
-                    saY = -max;
-                this.Circle_Control.style.top = `${parseInt(this.Circle_Begin.style.top) + saY}px`;
-                this.Circle_Control.style.left = `${parseInt(this.Circle_Begin.style.left) + saX}px`;
-                saX = saX / 300 * this.hero.speed;
-                saY = saY / 300 * this.hero.speed;
-                if (this.hero.Status == "Work" || this.hero.Status == "Stand")
-                    this.hero.move(saX, saY);
+            if ((navigator.userAgent.indexOf('iPhone') > 0 || navigator.userAgent.indexOf('Android') > 0 && navigator.userAgent.indexOf('Mobile') > 0) || (navigator.userAgent.indexOf('iPad') > 0 || navigator.userAgent.indexOf('Android') > 0)) {
+                //タッチ中のイベント
+                if (this.TouchBegin != null && this.TouchNow != null) {
+                    const max = 150;
+                    //長押しか移動押しか
+                    let touchSaX = this.TouchBegin.speed.x - this.TouchNow.speed.x;
+                    let touchSaY = this.TouchBegin.speed.y - this.TouchNow.speed.y;
+                    if (this.longTouch[0] <= 0 &&
+                        ((-max / 4 < touchSaX && touchSaX < 0) || (0 <= touchSaX && touchSaX < max / 4)) &&
+                        ((-max / 4 < touchSaY && touchSaY < 0) || (0 <= touchSaY && touchSaY < max / 4))) {
+                        //長押し
+                        this.longTouch[0] = this.longTouch[1];
+                        this.keydown(GlobalData_1.GlobalData.Instance.KeySet["Attack"]);
+                    }
+                    else {
+                        this.longTouch[0]--;
+                        this.keyup(GlobalData_1.GlobalData.Instance.KeySet["Attack"]);
+                        let saX = this.TouchNow.speed.x - this.TouchBegin.speed.x;
+                        let saY = this.TouchNow.speed.y - this.TouchBegin.speed.y;
+                        if (saX > max)
+                            saX = max;
+                        else if (saX < -max)
+                            saX = -max;
+                        if (saY > max)
+                            saY = max;
+                        else if (saY < -max)
+                            saY = -max;
+                        this.Circle_Control.style.top = `${parseInt(this.Circle_Begin.style.top) + saY}px`;
+                        this.Circle_Control.style.left = `${parseInt(this.Circle_Begin.style.left) + saX}px`;
+                        saX = saX / max * this.hero.speed;
+                        saY = saY / max * this.hero.speed;
+                        if (this.hero.Status == "Work" || this.hero.Status == "Stand")
+                            this.hero.move(saX, saY);
+                    }
+                }
+                else {
+                    this.keyup(GlobalData_1.GlobalData.Instance.KeySet["Attack"]);
+                    this.longTouch[0] = this.longTouch[1];
+                }
             }
             //主人公の処理
             this.hero.CharacteUpdate(this.keys, this);
@@ -116,10 +138,13 @@ define(["require", "exports", "./Scene", "../Data/GlobalData", "../Object/Hero",
         draw(ctx) {
             this.context.clearRect(0, 0, this.BackCanvas.width, this.BackCanvas.height);
             ctx.clearRect(0, 0, GlobalData_1.GlobalData.Instance.ScreenSize.width, GlobalData_1.GlobalData.Instance.ScreenSize.height);
+            //敵描画
             for (let i = 0; i < this.enemys.length; i++) {
                 this.enemys[i].draw(this.context);
             }
+            //自分描画
             this.hero.draw(this.context);
+            //ダメージオブジェ描画
             for (let i = 0; i < this.DamageObjs.length; i++) {
                 this.DamageObjs[i].draw(this.context);
             }
@@ -146,23 +171,28 @@ define(["require", "exports", "./Scene", "../Data/GlobalData", "../Object/Hero",
             this.context.beginPath();
             this.context.arc(GlobalData_1.GlobalData.Instance.ScreenSize.width - 60, GlobalData_1.GlobalData.Instance.ScreenSize.height - 160, 45, 0, (Math.PI * 2) * superPercent);
             this.context.stroke();
-            //
+            //ダブルバッファリング
             ctx.drawImage(this.BackCanvas, 0, 0);
         }
+        //シーン呼び出し
         call() {
             super.call();
             this.background.src = `./image/Field/${this.fieldImageName}`;
         }
+        //シーン移動
         move() {
+            super.move();
             this.Circle_Begin.style.display = "none";
             this.Circle_Control.style.display = "none";
         }
+        //キー押し
         keydown(keyType) {
             this.keys.push(keyType);
             if (keyType == GlobalData_1.GlobalData.Instance.KeySet["Cansel"]) {
                 SceneManager_1.SceneManager.Instance.RemoveScene(1);
             }
         }
+        //キー離し
         keyup(keyType) {
             let keys = [];
             for (let i = 0; i < this.keys.length; i++) {
@@ -172,6 +202,7 @@ define(["require", "exports", "./Scene", "../Data/GlobalData", "../Object/Hero",
             }
             this.keys = keys;
         }
+        //タッチ
         touchStart(Touch) {
             this.TouchBegin = Touch;
             this.TouchBeginTime = Date.now();
@@ -179,6 +210,7 @@ define(["require", "exports", "./Scene", "../Data/GlobalData", "../Object/Hero",
             this.Circle_Begin.style.left = Touch.speed.x.toString() + "px";
             this.Circle_Begin.style.display = "block";
             this.Circle_Control.style.display = "block";
+            this.TouchNow = Touch;
         }
         touchNow(Touch) {
             this.TouchNow = Touch;
@@ -186,7 +218,7 @@ define(["require", "exports", "./Scene", "../Data/GlobalData", "../Object/Hero",
         touchEnd(Touch) {
             this.TouchNow = null;
             let touchEndTime = Date.now();
-            if (this.TouchBegin != null && this.TouchBeginTime != null && touchEndTime - this.TouchBeginTime < 500) {
+            if (this.TouchBegin != null && this.TouchBeginTime != null && touchEndTime - this.TouchBeginTime < 300) {
                 let saX = Touch.speed.x - this.TouchBegin.speed.x;
                 let saY = Touch.speed.y - this.TouchBegin.speed.y;
                 const max = 150;

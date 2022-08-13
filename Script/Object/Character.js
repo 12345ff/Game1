@@ -10,7 +10,7 @@ define(["require", "exports", "../Base/Position", "../Data/GlobalData", "./Objec
             this.hp = this.maxHP;
             this.speed = Math.floor(3 + 0.05 * Lv);
             this.OldPosition = this.position;
-            this.atk = Math.floor(3 + 0.5 * Lv);
+            this.atk = Math.floor(10 + 0.5 * Lv);
             this.def = 20 + Lv / 2;
             this.atkRenge = 80 + 2 * Lv;
             this.skill1 = new Skill_1.Skill(skill1.skillType, skill1.name, skill1.maxPoint, skill1.Deleay, skill1.saveImage, skill1.activeFunction);

@@ -52,8 +52,8 @@ define(["require", "exports", "../Base/Position", "../Base/Size", "../Base/Recta
             //アニメーション基礎用意
             let image1 = ResourceManager_1.ResourceManager.Instance.GetImage("1");
             let image2 = ResourceManager_1.ResourceManager.Instance.GetImage("8");
-            skill.animation1 = new Animation_1.GameAnimation(executor.rotate, new Size_1.Size(100, 100));
-            skill.animation2 = new Animation_1.GameAnimation(executor.rotate, new Size_1.Size(100, 100));
+            skill.animation1 = new Animation_1.GameAnimation(executor.rotate, new Size_1.Size(50, 50));
+            skill.animation2 = new Animation_1.GameAnimation(executor.rotate, new Size_1.Size(50, 50));
             skill.animation1.setInterval(10);
             skill.animation2.setInterval(10);
             //アニメーション用意
@@ -88,7 +88,7 @@ define(["require", "exports", "../Base/Position", "../Base/Size", "../Base/Recta
                 });
             }
         }
-        scene.DamageObjs.push(new Ball_1.DamageBall(executor.Type, 15, 50, executor.rotate, 3, new Position_1.Position(executor.position.x, executor.position.y), skill.animation1, skill.animation2));
+        scene.DamageObjs.push(new Ball_1.DamageBall(executor.Type, 15, 25, executor.rotate, 3, new Position_1.Position(executor.position.x, executor.position.y), skill.animation1, skill.animation2));
     });
     Skills.skill2 = new Skill_1.Skill("normal", "skill1", 5, 3, ResourceManager_1.ResourceManager.Instance.GetImage("i2"), (scene, executor, skill) => {
         if (skill.nowFlame == 1) {

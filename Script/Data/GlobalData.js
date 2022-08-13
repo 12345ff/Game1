@@ -11,7 +11,7 @@ define(["require", "exports", "../Base/Size", "./FieldFunction", "./EnemyPattern
             //---
             //設定
             this.KeySet = {
-                "Ok": " ",
+                "Ok": "Enter",
                 "Cansel": "Backspace",
                 "Dash": "Shift",
                 "Up": "ArrowUp",

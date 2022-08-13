@@ -11,15 +11,16 @@ define(["require", "exports", "./Scene", "./SceneManager", "../Data/GlobalData"]
             let BackBtn = document.createElement("button");
             BackBtn.style.float = "left";
             BackBtn.textContent = "back";
-            BackBtn.style.width = "50px";
-            BackBtn.style.height = "50px";
+            BackBtn.style.width = "200px";
+            BackBtn.style.height = "100px";
+            BackBtn.style.fontSize = "50px";
             BackBtn.addEventListener("click", () => {
                 SceneManager_1.SceneManager.Instance.RemoveScene(1);
             });
             SettingField.appendChild(BackBtn);
             //キー設定
             let KeySettings = document.createElement("ul");
-            KeySettings.style.marginTop = "50px";
+            KeySettings.style.marginTop = "100px";
             KeySettings.classList.add("SettingList");
             KeySettings.classList.add("OptionClose");
             let KeySettingText = document.createElement("p");

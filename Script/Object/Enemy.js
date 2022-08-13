@@ -26,6 +26,11 @@ define(["require", "exports", "../Base/Position", "../Base/Size", "../Base/Recta
                 this.WorkAnimation.SetUp2(Image1, [new Rectangle_1.Rectangle(192, 64, 64, 64), new Rectangle_1.Rectangle(256, 64, 64, 64)]);
                 this.AttackAnimation.SetUp2(Image1, [new Rectangle_1.Rectangle(384, 0, 64, 64), new Rectangle_1.Rectangle(448, 0, 64, 64), new Rectangle_1.Rectangle(512, 0, 64, 64)]);
             });
+            if (Image1.complete) {
+                this.StandAnimation.SetUp2(Image1, [new Rectangle_1.Rectangle(0, 0, 64, 64), new Rectangle_1.Rectangle(64, 0, 64, 64), new Rectangle_1.Rectangle(128, 0, 64, 64),]);
+                this.WorkAnimation.SetUp2(Image1, [new Rectangle_1.Rectangle(192, 64, 64, 64), new Rectangle_1.Rectangle(256, 64, 64, 64)]);
+                this.AttackAnimation.SetUp2(Image1, [new Rectangle_1.Rectangle(384, 0, 64, 64), new Rectangle_1.Rectangle(448, 0, 64, 64), new Rectangle_1.Rectangle(512, 0, 64, 64)]);
+            }
         }
         update(scene) {
             this.OldPosition = new Position_1.Position(this.position.x, this.position.y);

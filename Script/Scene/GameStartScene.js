@@ -20,8 +20,9 @@ define(["require", "exports", "./Scene", "./SceneManager", "../Skill/Skills", ".
             this.fieldFunction = FieldFunction_1.FieldFunction["normal"];
             this.EnemyPattern = EnemyPattern_1.EnemyPattern["normal"];
             let BackBtn = document.createElement("button");
-            BackBtn.style.width = "150px";
-            BackBtn.style.height = "50px";
+            BackBtn.style.width = "250px";
+            BackBtn.style.height = "150px";
+            BackBtn.style.fontSize = "50px";
             BackBtn.textContent = "back";
             BackBtn.addEventListener("click", () => {
                 SceneManager_1.SceneManager.Instance.RemoveScene(1);
@@ -35,9 +36,9 @@ define(["require", "exports", "./Scene", "./SceneManager", "../Skill/Skills", ".
             CharacterSettingBtn.textContent = "キャラクター設定";
             EnemySettingBtn.textContent = "敵設定";
             FieldSettingBtn.textContent = "フィールド設定";
-            CharacterSettingBtn.style.top = "50px";
-            EnemySettingBtn.style.top = "130px";
-            FieldSettingBtn.style.top = "210px";
+            CharacterSettingBtn.style.top = "150px";
+            EnemySettingBtn.style.top = "230px";
+            FieldSettingBtn.style.top = "310px";
             CharacterSettingBtn.addEventListener("click", () => {
                 CharacterSettingBtn.style.backgroundColor = "#A3ABD9";
                 EnemySettingBtn.style.backgroundColor = "#7E8BD9";
@@ -284,8 +285,8 @@ define(["require", "exports", "./Scene", "./SceneManager", "../Skill/Skills", ".
             let StartBtn = document.createElement("button");
             StartBtn.textContent = "開始";
             StartBtn.style.position = "absolute";
-            StartBtn.style.width = "150px";
-            StartBtn.style.height = "100px";
+            StartBtn.style.width = "250px";
+            StartBtn.style.height = "200px";
             StartBtn.style.bottom = "0px";
             StartBtn.style.left = "0px";
             StartBtn.style.fontSize = "50px";

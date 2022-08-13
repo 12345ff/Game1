@@ -110,6 +110,27 @@ define(["require", "exports", "./Scene/SceneManager", "./Scene/TitleScene", "./l
             (_a = SceneManager_1.SceneManager.Instance.GetTopScene()) === null || _a === void 0 ? void 0 : _a.keyup(e.key);
         });
         gameLoop.StartLoop();
+        if (navigator.userAgent.indexOf('iPhone') > 0 || navigator.userAgent.indexOf('Android') > 0 && navigator.userAgent.indexOf('Mobile') > 0) {
+            //Iphone/Android
+        }
+        else if (navigator.userAgent.indexOf('iPad') > 0 || navigator.userAgent.indexOf('Android') > 0) {
+            //IPad/...
+        }
+        else {
+            //PC/other
+            let mobileUIs = document.getElementsByClassName("mobileUI");
+            for (let i = 0; i < mobileUIs.length; i++) {
+                let mobileUI = mobileUIs[i];
+                mobileUI.style.display = "none";
+            }
+            let GameScreens = document.getElementsByClassName("GameScreen");
+            for (let i = 0; i < GameScreens.length; i++) {
+                let GameScreen = GameScreens[i];
+                GameScreen.style.width = "95%";
+                GameScreen.style.maxWidth = "800px";
+                GameScreen.style.maxHeight = "none";
+            }
+        }
     })();
 });
 //!Start!

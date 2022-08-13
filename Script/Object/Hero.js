@@ -308,6 +308,7 @@ define(["require", "exports", "../Base/Position", "../Base/Size", "../Base/Recta
             switch (this.Status) {
                 case "Stand":
                     //静止時
+                    this.AtkAnimation = null;
                     this.StandAnimation.Update();
                     this.DrawImage = this.StandAnimation.image;
                     this.WorkAnimation.Reset();
@@ -315,6 +316,7 @@ define(["require", "exports", "../Base/Position", "../Base/Size", "../Base/Recta
                     break;
                 case "Work":
                     //歩行時
+                    this.AtkAnimation = null;
                     this.WorkAnimation.Update();
                     this.DrawImage = this.WorkAnimation.image;
                     this.StandAnimation.Reset();
@@ -322,6 +324,7 @@ define(["require", "exports", "../Base/Position", "../Base/Size", "../Base/Recta
                     break;
                 case "Dash":
                     //ダッシュ時
+                    this.AtkAnimation = null;
                     this.nowSpeed.x *= 0.9;
                     this.nowSpeed.y *= 0.9;
                     if (this.nowSpeed.x > 0 && this.nowSpeed.x < 1)

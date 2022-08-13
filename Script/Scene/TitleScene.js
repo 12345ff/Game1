@@ -1,4 +1,4 @@
-define(["require", "exports", "./Scene", "./SceneManager", "./GameStartScene", "./SettingScene", "../Data/GlobalData"], function (require, exports, Scene_1, SceneManager_1, GameStartScene_1, SettingScene_1, GlobalData_1) {
+define(["require", "exports", "./Scene", "./SceneManager", "./GameStartScene", "./SettingScene", "../Data/GlobalData", "./Tutorialscene"], function (require, exports, Scene_1, SceneManager_1, GameStartScene_1, SettingScene_1, GlobalData_1, Tutorialscene_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.TitleScene = void 0;
@@ -8,19 +8,36 @@ define(["require", "exports", "./Scene", "./SceneManager", "./GameStartScene", "
             let textResource = document.createElement("p");
             let TitleText = document.createElement("p");
             let StartBtn = document.createElement("button");
+            let TutorialBtn = document.createElement("button");
             let SettingBtn = document.createElement("button");
             TitleText.style.position = "absolute";
             TitleText.style.top = "20px";
             TitleText.style.right = "20px";
-            TitleText.style.fontSize = "45px";
+            TitleText.style.fontSize = "80px";
             TitleText.style.fontFamily = "fantasy";
+            TitleText.style.color = "white";
             TitleText.textContent = "BattleGame!";
             StartBtn.className = "TitleBtn";
-            StartBtn.style.bottom = "120px";
+            StartBtn.style.bottom = "220px";
             StartBtn.style.left = "20px";
-            StartBtn.textContent = "ゲーム開始";
+            StartBtn.textContent = "自由戦闘";
             StartBtn.addEventListener("click", () => {
                 SceneManager_1.SceneManager.Instance.AddScene(new GameStartScene_1.GameSettingScene());
+            });
+            TutorialBtn.className = "TitleBtn";
+            TutorialBtn.style.bottom = "120px";
+            TutorialBtn.style.left = "20px";
+            TutorialBtn.textContent = "訓練";
+            TutorialBtn.addEventListener("click", () => {
+                if ((navigator.userAgent.indexOf('iPhone') > 0 || navigator.userAgent.indexOf('Android') > 0 && navigator.userAgent.indexOf('Mobile') > 0)
+                    || (navigator.userAgent.indexOf('iPad') > 0 || navigator.userAgent.indexOf('Android') > 0)) {
+                    //Mobile
+                    SceneManager_1.SceneManager.Instance.AddScene(new Tutorialscene_1.TutorialScene("mobile"));
+                }
+                else {
+                    //PC/other
+                    SceneManager_1.SceneManager.Instance.AddScene(new Tutorialscene_1.TutorialScene("pc"));
+                }
             });
             SettingBtn.className = "TitleBtn";
             SettingBtn.style.bottom = "10px";
@@ -35,12 +52,13 @@ define(["require", "exports", "./Scene", "./SceneManager", "./GameStartScene", "
             textResource.style.left = "0";
             this.UIs.push(textResource);
             this.UIs.push(TitleText);
+            this.UIs.push(TutorialBtn);
             this.UIs.push(StartBtn);
             this.UIs.push(SettingBtn);
         }
         call() {
             super.call();
-            this.background.src = "./image/img.bmp";
+            this.background.src = "./image/Title.png";
         }
         update() {
         }
