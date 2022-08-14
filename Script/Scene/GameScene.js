@@ -14,6 +14,7 @@ define(["require", "exports", "./Scene", "../Data/GlobalData", "../Object/Hero",
             this.TouchBeginTime = null;
             this.TouchNow = null;
             this.longTouch = [15, 15];
+            this.loopOn = true;
             this.Circle_Begin = document.getElementById("BigCircle");
             this.Circle_Control = document.getElementById("ControlCircle");
             this.fieldImageName = fieldImageName;
@@ -40,113 +41,125 @@ define(["require", "exports", "./Scene", "../Data/GlobalData", "../Object/Hero",
             this.enemys[0].position = new Position_1.Position(500, 300);
         }
         update() {
-            if ((navigator.userAgent.indexOf('iPhone') > 0 || navigator.userAgent.indexOf('Android') > 0 && navigator.userAgent.indexOf('Mobile') > 0) || (navigator.userAgent.indexOf('iPad') > 0 || navigator.userAgent.indexOf('Android') > 0)) {
-                //タッチ中のイベント
-                if (this.TouchBegin != null && this.TouchNow != null) {
-                    const max = 150;
-                    //長押しか移動押しか
-                    let touchSaX = this.TouchBegin.speed.x - this.TouchNow.speed.x;
-                    let touchSaY = this.TouchBegin.speed.y - this.TouchNow.speed.y;
-                    if (this.longTouch[0] <= 0 &&
-                        ((-max / 4 < touchSaX && touchSaX < 0) || (0 <= touchSaX && touchSaX < max / 4)) &&
-                        ((-max / 4 < touchSaY && touchSaY < 0) || (0 <= touchSaY && touchSaY < max / 4))) {
-                        //長押し
-                        this.longTouch[0] = this.longTouch[1];
-                        this.keydown(GlobalData_1.GlobalData.Instance.KeySet["Attack"]);
+            if (this.loopOn) {
+                if ((navigator.userAgent.indexOf('iPhone') > 0 || navigator.userAgent.indexOf('Android') > 0 && navigator.userAgent.indexOf('Mobile') > 0) || (navigator.userAgent.indexOf('iPad') > 0 || navigator.userAgent.indexOf('Android') > 0)) {
+                    //タッチ中のイベント
+                    if (this.TouchBegin != null && this.TouchNow != null) {
+                        const max = 150;
+                        //長押しか移動押しか
+                        let touchSaX = this.TouchBegin.speed.x - this.TouchNow.speed.x;
+                        let touchSaY = this.TouchBegin.speed.y - this.TouchNow.speed.y;
+                        if (this.longTouch[0] <= 0 &&
+                            ((-max / 4 < touchSaX && touchSaX < 0) || (0 <= touchSaX && touchSaX < max / 4)) &&
+                            ((-max / 4 < touchSaY && touchSaY < 0) || (0 <= touchSaY && touchSaY < max / 4))) {
+                            //長押し
+                            this.longTouch[0] = this.longTouch[1];
+                            this.keydown(GlobalData_1.GlobalData.Instance.KeySet["Attack"]);
+                        }
+                        else {
+                            this.longTouch[0]--;
+                            this.keyup(GlobalData_1.GlobalData.Instance.KeySet["Attack"]);
+                            let saX = this.TouchNow.speed.x - this.TouchBegin.speed.x;
+                            let saY = this.TouchNow.speed.y - this.TouchBegin.speed.y;
+                            if (saX > max)
+                                saX = max;
+                            else if (saX < -max)
+                                saX = -max;
+                            if (saY > max)
+                                saY = max;
+                            else if (saY < -max)
+                                saY = -max;
+                            this.Circle_Control.style.top = `${parseInt(this.Circle_Begin.style.top) + saY}px`;
+                            this.Circle_Control.style.left = `${parseInt(this.Circle_Begin.style.left) + saX}px`;
+                            saX = saX / max * this.hero.speed;
+                            saY = saY / max * this.hero.speed;
+                            if (this.hero.Status == "Work" || this.hero.Status == "Stand")
+                                this.hero.move(saX, saY);
+                        }
                     }
                     else {
-                        this.longTouch[0]--;
                         this.keyup(GlobalData_1.GlobalData.Instance.KeySet["Attack"]);
-                        let saX = this.TouchNow.speed.x - this.TouchBegin.speed.x;
-                        let saY = this.TouchNow.speed.y - this.TouchBegin.speed.y;
-                        if (saX > max)
-                            saX = max;
-                        else if (saX < -max)
-                            saX = -max;
-                        if (saY > max)
-                            saY = max;
-                        else if (saY < -max)
-                            saY = -max;
-                        this.Circle_Control.style.top = `${parseInt(this.Circle_Begin.style.top) + saY}px`;
-                        this.Circle_Control.style.left = `${parseInt(this.Circle_Begin.style.left) + saX}px`;
-                        saX = saX / max * this.hero.speed;
-                        saY = saY / max * this.hero.speed;
-                        if (this.hero.Status == "Work" || this.hero.Status == "Stand")
-                            this.hero.move(saX, saY);
+                        this.longTouch[0] = this.longTouch[1];
                     }
                 }
-                else {
-                    this.keyup(GlobalData_1.GlobalData.Instance.KeySet["Attack"]);
-                    this.longTouch[0] = this.longTouch[1];
+                //主人公の処理
+                this.hero.CharacteUpdate(this.keys, this);
+                //敵の処理
+                let array = [];
+                for (let i = 0; i < this.enemys.length; i++) {
+                    this.enemys[i].update(this);
+                    if (!this.enemys[i].delete)
+                        array.push(this.enemys[i]);
                 }
-            }
-            //主人公の処理
-            this.hero.CharacteUpdate(this.keys, this);
-            //敵の処理
-            let array = [];
-            for (let i = 0; i < this.enemys.length; i++) {
-                this.enemys[i].update(this);
-                if (!this.enemys[i].delete)
-                    array.push(this.enemys[i]);
-            }
-            this.enemys = array;
-            //ダメージオブジェクトの処理
-            let array2 = [];
-            for (let i = 0; i < this.DamageObjs.length; i++) {
-                this.DamageObjs[i].update(this);
-                if (this.DamageObjs[i].mode != "delete") {
-                    array2.push(this.DamageObjs[i]);
+                this.enemys = array;
+                //ダメージオブジェクトの処理
+                let array2 = [];
+                for (let i = 0; i < this.DamageObjs.length; i++) {
+                    this.DamageObjs[i].update(this);
+                    if (this.DamageObjs[i].mode != "delete") {
+                        array2.push(this.DamageObjs[i]);
+                    }
                 }
-            }
-            this.DamageObjs = array2;
-            //そのほかオブジェクトの処理
-            for (let i = 0; i < this.Objects.length; i++) {
-                let target = this.Objects[i];
-                //衝突しているか
-                if (this.hero.Size.width == 0 || this.hero.Size.height == 0 ||
-                    target.Size.width == 0 || target.Size.height == 0 ||
-                    Math.abs(this.hero.position.x - target.position.x) > this.hero.Size.width / 2 + target.Size.width / 2 ||
-                    Math.abs(this.hero.position.y - target.position.y) > this.hero.Size.height / 2 + target.Size.height / 2) {
-                    continue;
-                }
-                //衝突の応答
-                let overlap = new Position_1.Position(Math.sign(this.hero.position.x - target.position.x) * ((target.Size.width / 2 + this.hero.Size.width / 2) - Math.abs(this.hero.position.x - target.position.x)), Math.sign(this.hero.position.y - target.position.y) * ((target.Size.height / 2 + this.hero.Size.height / 2) - Math.abs(this.hero.position.y - target.position.y)));
-                let BeforeOverlapX = Math.abs(this.hero.OldPosition.x - target.position.x) < this.hero.Size.width / 2 + target.Size.width / 2;
-                let BeforeOverlapY = Math.abs(this.hero.OldPosition.y - target.position.y) < this.hero.Size.height / 2 + target.Size.height / 2;
-                if ((!BeforeOverlapX && BeforeOverlapY) || (!BeforeOverlapX && !BeforeOverlapY && Math.abs(overlap.x) <= Math.abs(overlap.y))) {
-                    this.hero.position.x += overlap.x;
-                    if (overlap.x < 0) {
-                        this.hero.nowSpeed.x = Math.min(this.hero.nowSpeed.x, 0.0);
+                this.DamageObjs = array2;
+                //そのほかオブジェクトの処理
+                for (let i = 0; i < this.Objects.length; i++) {
+                    let target = this.Objects[i];
+                    //衝突しているか
+                    if (this.hero.Size.width == 0 || this.hero.Size.height == 0 ||
+                        target.Size.width == 0 || target.Size.height == 0 ||
+                        Math.abs(this.hero.position.x - target.position.x) > this.hero.Size.width / 2 + target.Size.width / 2 ||
+                        Math.abs(this.hero.position.y - target.position.y) > this.hero.Size.height / 2 + target.Size.height / 2) {
+                        continue;
+                    }
+                    //衝突の応答
+                    let overlap = new Position_1.Position(Math.sign(this.hero.position.x - target.position.x) * ((target.Size.width / 2 + this.hero.Size.width / 2) - Math.abs(this.hero.position.x - target.position.x)), Math.sign(this.hero.position.y - target.position.y) * ((target.Size.height / 2 + this.hero.Size.height / 2) - Math.abs(this.hero.position.y - target.position.y)));
+                    let BeforeOverlapX = Math.abs(this.hero.OldPosition.x - target.position.x) < this.hero.Size.width / 2 + target.Size.width / 2;
+                    let BeforeOverlapY = Math.abs(this.hero.OldPosition.y - target.position.y) < this.hero.Size.height / 2 + target.Size.height / 2;
+                    if ((!BeforeOverlapX && BeforeOverlapY) || (!BeforeOverlapX && !BeforeOverlapY && Math.abs(overlap.x) <= Math.abs(overlap.y))) {
+                        this.hero.position.x += overlap.x;
+                        if (overlap.x < 0) {
+                            this.hero.nowSpeed.x = Math.min(this.hero.nowSpeed.x, 0.0);
+                        }
+                        else {
+                            this.hero.nowSpeed.x = Math.max(this.hero.nowSpeed.x, 0.0);
+                        }
                     }
                     else {
-                        this.hero.nowSpeed.x = Math.max(this.hero.nowSpeed.x, 0.0);
+                        this.hero.position.y += overlap.y;
+                        if (overlap.y < 0) {
+                            this.hero.nowSpeed.y = Math.min(this.hero.nowSpeed.y, 0);
+                        }
+                        else {
+                            this.hero.nowSpeed.y = Math.max(this.hero.nowSpeed.y, 0);
+                        }
                     }
                 }
-                else {
-                    this.hero.position.y += overlap.y;
-                    if (overlap.y < 0) {
-                        this.hero.nowSpeed.y = Math.min(this.hero.nowSpeed.y, 0);
-                    }
-                    else {
-                        this.hero.nowSpeed.y = Math.max(this.hero.nowSpeed.y, 0);
-                    }
-                }
+                this.fieldFunction(this);
+                this.fieldFunctionEnd(this);
             }
-            this.fieldFunction(this);
-            this.fieldFunctionEnd(this);
         }
         draw(ctx) {
             this.context.clearRect(0, 0, this.BackCanvas.width, this.BackCanvas.height);
             ctx.clearRect(0, 0, GlobalData_1.GlobalData.Instance.ScreenSize.width, GlobalData_1.GlobalData.Instance.ScreenSize.height);
-            //敵描画
+            //描画
+            let objs = [];
+            objs.push(this.hero);
             for (let i = 0; i < this.enemys.length; i++) {
-                this.enemys[i].draw(this.context);
+                objs.push(this.enemys[i]);
             }
-            //自分描画
-            this.hero.draw(this.context);
-            //ダメージオブジェ描画
             for (let i = 0; i < this.DamageObjs.length; i++) {
-                this.DamageObjs[i].draw(this.context);
+                objs.push(this.DamageObjs[i]);
+            }
+            objs.sort((a, b) => {
+                if (a.position.y > b.position.y)
+                    return 1;
+                else if (a.position.y < b.position.y)
+                    return -1;
+                else
+                    return 0;
+            });
+            for (let i = 0; i < objs.length; i++) {
+                objs[i].draw(this.context);
             }
             //スキルアイコン
             this.context.drawImage(this.hero.skill1.image, GlobalData_1.GlobalData.Instance.ScreenSize.width - 100, GlobalData_1.GlobalData.Instance.ScreenSize.height - 100);
@@ -178,6 +191,10 @@ define(["require", "exports", "./Scene", "../Data/GlobalData", "../Object/Hero",
         call() {
             super.call();
             this.background.src = `./image/Field/${this.fieldImageName}`;
+            this.hero.skill1.point = 0;
+            this.hero.skill2.point = 0;
+            this.hero.skill3.point = 0;
+            this.hero.superSkill.point = 0;
         }
         //シーン移動
         move() {

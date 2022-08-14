@@ -6,6 +6,12 @@ define(["require", "exports", "../Base/Position", "../Data/GlobalData", "./Objec
         constructor(Lv, skill1, skill2, skill3, superSkill) {
             super();
             this.friction = 0.8;
+            this.condition = {
+                "やけど": new condition(),
+                "氷": new condition(),
+                "回復病": new condition(),
+                "麻痺": new condition(),
+            };
             this.maxHP = 100 + 5 * Lv;
             this.hp = this.maxHP;
             this.speed = Math.floor(3 + 0.05 * Lv);
@@ -79,5 +85,37 @@ define(["require", "exports", "../Base/Position", "../Data/GlobalData", "./Objec
         }
     }
     exports.GameCharacter = GameCharacter;
+    class condition {
+        constructor() {
+            this.on = false;
+            this.count = 0;
+            this.deley = [0, 0];
+        }
+        countdown() {
+            if (this.on) {
+                if (this.count > 0)
+                    this.count--;
+                else if (this.count == 0) {
+                    this.on = false;
+                    this.deley[0] = 0;
+                    this.deley[1] = 0;
+                }
+                if (this.deley[0] > 0) {
+                    this.deley[0]--;
+                    return false;
+                }
+                else {
+                    this.deley[0] = this.deley[1];
+                    return true;
+                }
+            }
+            return false;
+        }
+        ON(count, deley) {
+            this.on = true;
+            this.count = count;
+            this.deley[1] = deley;
+        }
+    }
 });
 //# sourceMappingURL=Character.js.map

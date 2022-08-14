@@ -3,10 +3,11 @@ define(["require", "exports", "./DamageObj", "../Base/Position", "../Data/Global
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.DamageRect = void 0;
     class DamageRect extends DamageObj_1.DamageObj {
-        constructor(user, damage, size, rotate, position, anime) {
+        constructor(user, damage, size, rotate, position, countDown, anime) {
             super(user, damage);
             this.alpha = 1;
             this.minusPer = 0.95;
+            this.countdown = countDown;
             this.Size = size;
             this.position = new Position_1.Position(Math.floor(position.x), Math.floor(position.y));
             this.rotate = rotate;
@@ -72,8 +73,9 @@ define(["require", "exports", "./DamageObj", "../Base/Position", "../Data/Global
                 }
                 this.Animation.Update();
                 this.DrawImage = this.Animation.image;
-                this.alpha *= this.minusPer;
-                if (this.alpha < 0.1) {
+                if (this.countdown > 0)
+                    this.countdown--;
+                else {
                     this.mode = "delete";
                 }
             }

@@ -50,10 +50,10 @@ define(["require", "exports", "./DamageObj", "../Base/Position", "../Base/Size",
             else if (this.mode == "tracking") {
                 this.position.x += this.TrackingSpeed.x;
                 this.position.y += this.TrackingSpeed.y;
-                if (this.position.x - this.radius < 0 ||
-                    this.position.x + this.radius > GlobalData_1.GlobalData.Instance.ScreenSize.width ||
-                    this.position.y - this.radius < 0 ||
-                    this.position.y + this.radius > GlobalData_1.GlobalData.Instance.ScreenSize.height) {
+                if (this.position.x - this.radius < -GlobalData_1.GlobalData.Instance.ScreenSize.width ||
+                    this.position.x + this.radius > GlobalData_1.GlobalData.Instance.ScreenSize.width * 2 ||
+                    this.position.y - this.radius < -GlobalData_1.GlobalData.Instance.ScreenSize.height ||
+                    this.position.y + this.radius > GlobalData_1.GlobalData.Instance.ScreenSize.height * 2) {
                     this.mode = "end";
                 }
                 if (this.user == "enemy") {

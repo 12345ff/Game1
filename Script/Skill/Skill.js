@@ -35,6 +35,10 @@ define(["require", "exports", "../Base/Rectangle", "../Base/Clip", "../Base/Anim
             this.point = 0;
             this.nowFlame = 1;
         }
+        notActive() {
+            this.activeNow = false;
+            this.nowFlame = 1;
+        }
     }
     exports.Skill = Skill;
 });

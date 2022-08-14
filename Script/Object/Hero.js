@@ -56,6 +56,9 @@ define(["require", "exports", "../Base/Position", "../Base/Size", "../Base/Recta
             if (this.target != null) {
                 this.targetPos = new Position_1.Position(this.target.position.x, this.target.position.y);
             }
+            if (this.delay > 0) {
+                this.delay--;
+            }
             const up = keys.includes(GlobalData_1.GlobalData.Instance.KeySet["Up"]);
             const down = keys.includes(GlobalData_1.GlobalData.Instance.KeySet["Down"]);
             const left = keys.includes(GlobalData_1.GlobalData.Instance.KeySet["Left"]);
@@ -66,59 +69,69 @@ define(["require", "exports", "../Base/Position", "../Base/Size", "../Base/Recta
             const skill2 = keys.includes(GlobalData_1.GlobalData.Instance.KeySet["Skill2"]);
             const skill3 = keys.includes(GlobalData_1.GlobalData.Instance.KeySet["Skill3"]);
             const superskill = keys.includes(GlobalData_1.GlobalData.Instance.KeySet["SuperAttack"]);
-            if (this.delay <= 0) {
+            if (this.condition["やけど"].countdown()) {
+                if (scene.enemys.length > 0)
+                    this.damage(scene.enemys[0], 10);
+                else
+                    this.damage(this, 3);
+            }
+            if (!this.condition["麻痺"].on) {
+                //ボタン操作
                 if (atk) {
-                    //攻撃中状態にする
-                    this.delay = this.atkDelay;
-                    this.Status = "Attack";
-                    this.nowSpeed = new Position_1.Position(0, 0);
-                    //攻撃アニメーション用意
-                    this.AtkAnimation = new Animation_1.GameAnimation(this.rotate - 270, new Size_1.Size(this.Size.width * 2, this.Size.height * 3));
-                    this.AtkAnimation.setInterval(10);
-                    this.AtkAnimation.limit = 1;
-                    this.AtkAnimation.SetUp2(ResourceManager_1.ResourceManager.Instance.GetImage("atkAnime1"), [new Rectangle_1.Rectangle(0, 0, 50, 50), new Rectangle_1.Rectangle(0, 50, 50, 50), new Rectangle_1.Rectangle(0, 100, 50, 50), new Rectangle_1.Rectangle(0, 150, 50, 50), new Rectangle_1.Rectangle(0, 200, 50, 50),]);
-                    //当たり判定
-                    for (let i = 0; i < scene.enemys.length; i++) {
-                        const target = scene.enemys[i];
-                        const saX = target.position.x - this.position.x;
-                        const saY = target.position.y - this.position.y;
-                        const saWidth = target.Size.width + this.atkRenge;
-                        const saHeight = target.Size.height + this.atkRenge;
-                        const sa = saX * saX + saY * saY;
-                        if (sa > saWidth * saWidth || sa > saHeight * saHeight) {
-                            continue;
-                        }
-                        //↑範囲内か
-                        const radian = Math.floor(Math.atan2(target.position.y - this.position.y, target.position.x - this.position.x) * (180 / Math.PI));
-                        let atkRengePlus = radian + 90;
-                        let atkRengeMinus = radian - 90;
-                        let degree = parseInt((Math.atan2(saY, saX) * 180 / Math.PI).toString());
-                        if (degree < 0)
-                            degree += 360;
-                        if (atkRengePlus >= 360)
-                            atkRengePlus -= 360;
-                        if (atkRengeMinus < 0)
-                            atkRengeMinus += 360;
-                        let atkFlag = false;
-                        if (atkRengeMinus < atkRengeMinus) {
-                            if (atkRengeMinus <= degree && degree <= atkRengePlus)
-                                atkFlag = true;
-                        }
-                        else {
-                            if (atkRengeMinus <= degree && degree <= 360)
-                                atkFlag = true;
-                            else if (atkRengePlus >= degree && degree >= 0)
-                                atkFlag = true;
-                        }
-                        if (atkFlag) {
-                            //↑角度内か
-                            target.damage(this, this.atk);
-                            if (this.skill1.point < this.skill1.maxPoint)
-                                this.skill1.point++;
-                            if (this.skill2.point < this.skill2.maxPoint)
-                                this.skill2.point++;
-                            if (this.skill3.point < this.skill3.maxPoint)
-                                this.skill3.point++;
+                    //攻撃
+                    if (this.delay <= 0) {
+                        //攻撃中状態にする
+                        this.delay = this.atkDelay;
+                        this.Status = "Attack";
+                        this.nowSpeed = new Position_1.Position(0, 0);
+                        //攻撃アニメーション用意
+                        this.AtkAnimation = new Animation_1.GameAnimation(this.rotate - 270, new Size_1.Size(this.Size.width * 2, this.Size.height * 3));
+                        this.AtkAnimation.setInterval(10);
+                        this.AtkAnimation.limit = 1;
+                        this.AtkAnimation.SetUp2(ResourceManager_1.ResourceManager.Instance.GetImage("atkAnime1"), [new Rectangle_1.Rectangle(0, 0, 50, 50), new Rectangle_1.Rectangle(0, 50, 50, 50), new Rectangle_1.Rectangle(0, 100, 50, 50), new Rectangle_1.Rectangle(0, 150, 50, 50), new Rectangle_1.Rectangle(0, 200, 50, 50),]);
+                        //当たり判定
+                        for (let i = 0; i < scene.enemys.length; i++) {
+                            const target = scene.enemys[i];
+                            const saX = target.position.x - this.position.x;
+                            const saY = target.position.y - this.position.y;
+                            const saWidth = target.Size.width + this.atkRenge;
+                            const saHeight = target.Size.height + this.atkRenge;
+                            const sa = saX * saX + saY * saY;
+                            if (sa > saWidth * saWidth || sa > saHeight * saHeight) {
+                                continue;
+                            }
+                            //↑範囲内か
+                            const radian = Math.floor(Math.atan2(target.position.y - this.position.y, target.position.x - this.position.x) * (180 / Math.PI));
+                            let atkRengePlus = radian + 90;
+                            let atkRengeMinus = radian - 90;
+                            let degree = parseInt((Math.atan2(saY, saX) * 180 / Math.PI).toString());
+                            if (degree < 0)
+                                degree += 360;
+                            if (atkRengePlus >= 360)
+                                atkRengePlus -= 360;
+                            if (atkRengeMinus < 0)
+                                atkRengeMinus += 360;
+                            let atkFlag = false;
+                            if (atkRengeMinus < atkRengeMinus) {
+                                if (atkRengeMinus <= degree && degree <= atkRengePlus)
+                                    atkFlag = true;
+                            }
+                            else {
+                                if (atkRengeMinus <= degree && degree <= 360)
+                                    atkFlag = true;
+                                else if (atkRengePlus >= degree && degree >= 0)
+                                    atkFlag = true;
+                            }
+                            if (atkFlag) {
+                                //↑角度内か
+                                target.damage(this, this.atk);
+                                if (this.skill1.point < this.skill1.maxPoint)
+                                    this.skill1.point++;
+                                if (this.skill2.point < this.skill2.maxPoint)
+                                    this.skill2.point++;
+                                if (this.skill3.point < this.skill3.maxPoint)
+                                    this.skill3.point++;
+                            }
                         }
                     }
                 }
@@ -126,38 +139,47 @@ define(["require", "exports", "../Base/Position", "../Base/Size", "../Base/Recta
                     (skill2 && this.skill2.point == this.skill2.maxPoint) ||
                     (skill3 && this.skill3.point == this.skill3.maxPoint) ||
                     (superskill && this.superSkill.point == this.superSkill.maxPoint)) {
-                    if (this.superSkill.point < this.superSkill.maxPoint) {
-                        this.superSkill.point++;
+                    //スキル
+                    if (this.delay <= 0) {
+                        this.skill1.notActive();
+                        this.skill2.notActive();
+                        this.skill3.notActive();
+                        this.superSkill.notActive();
+                        if (this.superSkill.point < this.superSkill.maxPoint) {
+                            this.superSkill.point++;
+                        }
+                        if (skill1 && this.skill1.point == this.skill1.maxPoint) {
+                            this.delay = this.skill1.Deleay;
+                            this.skill1.active();
+                        }
+                        else if (skill2 && this.skill2.point == this.skill2.maxPoint) {
+                            this.delay = this.skill2.Deleay;
+                            this.skill2.active();
+                        }
+                        else if (skill3 && this.skill3.point == this.skill3.maxPoint) {
+                            this.delay = this.skill3.Deleay;
+                            this.skill3.active();
+                        }
+                        else if (superskill || this.superSkill.point == this.superSkill.maxPoint) {
+                            this.delay = this.superSkill.Deleay;
+                            this.superSkill.active();
+                        }
+                        this.nowSpeed = new Position_1.Position(0, 0);
+                        this.Status = "Skill";
                     }
-                    if (skill1 && this.skill1.point == this.skill1.maxPoint) {
-                        this.delay = this.skill1.Deleay;
-                        this.skill1.active();
-                    }
-                    else if (skill2 && this.skill2.point == this.skill2.maxPoint) {
-                        this.delay = this.skill2.Deleay;
-                        this.skill2.active();
-                    }
-                    else if (skill3 && this.skill3.point == this.skill3.maxPoint) {
-                        this.delay = this.skill3.Deleay;
-                        this.skill3.active();
-                    }
-                    else if (superskill || this.superSkill.point == this.superSkill.maxPoint) {
-                        this.delay = this.superSkill.Deleay;
-                        this.superSkill.active();
-                    }
-                    this.nowSpeed = new Position_1.Position(0, 0);
-                    this.Status = "Skill";
                 }
                 else if (dash) {
                     //ダッシュ
-                    if (this.Status == "Stand" || this.Status == "Work") {
-                        let cos = Math.cos(Math.PI * this.direction / 180);
-                        let sin = Math.sin(Math.PI * this.direction / 180);
-                        this.nowSpeed = new Position_1.Position(cos * this.speed * 8, sin * this.speed * 8);
-                        this.Status = "Dash";
+                    if (this.delay <= 0) {
+                        if (this.Status == "Stand" || this.Status == "Work") {
+                            let cos = Math.cos(Math.PI * this.direction / 180);
+                            let sin = Math.sin(Math.PI * this.direction / 180);
+                            this.nowSpeed = new Position_1.Position(cos * this.speed * 8, sin * this.speed * 8);
+                            this.Status = "Dash";
+                        }
                     }
                 }
-                else if (this.Status == "Stand" || this.Status == "Work") {
+                else if (this.Status == "Stand" || this.Status == "Work" || this.Status == "Skill") {
                     //通常移動
                     //上下キー
                     this.Status = "Stand";
@@ -249,9 +271,6 @@ define(["require", "exports", "../Base/Position", "../Base/Size", "../Base/Recta
                         this.nowSpeed.y = 0;
                     }
                 }
-            }
-            else {
-                this.delay--;
             }
             //向きを進行方向に合わせる
             if (right && !down && !up) {
@@ -351,21 +370,6 @@ define(["require", "exports", "../Base/Position", "../Base/Size", "../Base/Recta
                     this.WorkAnimation.Reset();
                     break;
                 case "Skill":
-                    if (this.skill1.activeNow)
-                        this.skill1.activeFunction(scene, this, this.skill1);
-                    if (this.skill2.activeNow)
-                        this.skill2.activeFunction(scene, this, this.skill2);
-                    if (this.skill3.activeNow)
-                        this.skill3.activeFunction(scene, this, this.skill3);
-                    if (this.superSkill.activeNow)
-                        this.superSkill.activeFunction(scene, this, this.superSkill);
-                    if (this.delay == 1 || this.delay == 0) {
-                        this.Status = "Stand";
-                        this.skill1.activeNow = false;
-                        this.skill2.activeNow = false;
-                        this.skill3.activeNow = false;
-                        this.superSkill.activeNow = false;
-                    }
                     (_c = this.AtkAnimation) === null || _c === void 0 ? void 0 : _c.Update();
                     this.AttackAnimation.Update();
                     this.DrawImage = this.AttackAnimation.image;
@@ -375,6 +379,21 @@ define(["require", "exports", "../Base/Position", "../Base/Size", "../Base/Recta
             }
             //位置更新
             this.OldPosition = new Position_1.Position(this.position.x, this.position.y);
+            if (this.skill1.activeNow)
+                this.skill1.activeFunction(scene, this, this.skill1);
+            if (this.skill2.activeNow)
+                this.skill2.activeFunction(scene, this, this.skill2);
+            if (this.skill3.activeNow)
+                this.skill3.activeFunction(scene, this, this.skill3);
+            if (this.superSkill.activeNow)
+                this.superSkill.activeFunction(scene, this, this.superSkill);
+            if (this.delay == 1 || this.delay == 0) {
+                this.Status = "Stand";
+                this.skill1.activeNow = false;
+                this.skill2.activeNow = false;
+                this.skill3.activeNow = false;
+                this.superSkill.activeNow = false;
+            }
             this.position.x += this.nowSpeed.x;
             this.position.y += this.nowSpeed.y;
             super.fieldCollision();
@@ -436,6 +455,12 @@ define(["require", "exports", "../Base/Position", "../Base/Size", "../Base/Recta
             if (this.AtkAnimation != null) {
                 this.PrivateCtx.drawImage(this.AtkAnimation.image, eye1x - this.AtkAnimation.size.width / 2, eye1y - this.AtkAnimation.size.height / 2);
             }
+            //エフェクト
+            if (this.condition["やけど"].on) {
+                this.PrivateCtx.fillStyle = "red";
+                this.PrivateCtx.fillText("やけど", this.position.x, this.position.y);
+            }
+            //描画
             ctx.drawImage(this.PrivateCanvas, 0, 0);
         }
         move(speedX, speedY) {

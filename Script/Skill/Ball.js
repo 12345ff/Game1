@@ -21,32 +21,35 @@ define(["require", "exports", "./DamageObj", "../Base/Position", "../Base/Size",
             if (this.mode == "normal") {
                 this.position.x += this.Speed.x;
                 this.position.y += this.Speed.y;
-                if (this.position.x - this.radius < 0 ||
-                    this.position.x + this.radius > GlobalData_1.GlobalData.Instance.ScreenSize.width ||
-                    this.position.y - this.radius < 0 ||
-                    this.position.y + this.radius > GlobalData_1.GlobalData.Instance.ScreenSize.height) {
+                if (this.position.x - this.radius < -GlobalData_1.GlobalData.Instance.ScreenSize.width ||
+                    this.position.x + this.radius > GlobalData_1.GlobalData.Instance.ScreenSize.width * 2 ||
+                    this.position.y - this.radius < -GlobalData_1.GlobalData.Instance.ScreenSize ||
+                    this.position.y + this.radius > GlobalData_1.GlobalData.Instance.ScreenSize.height * 2) {
                     this.mode = "end";
                 }
+                let targets = [];
                 if (this.user == "enemy") {
-                    const hero = scene.hero;
-                    let saX = hero.position.x - this.position.x;
-                    let saY = hero.position.y - this.position.y;
-                    let saRadius = hero.Size.width / 2 + this.radius;
-                    if (saX * saX + saY * saY < saRadius * saRadius) {
-                        hero.damage(this, this.damage);
-                        this.mode = "end";
-                    }
+                    targets = [scene.hero];
                 }
                 else if (this.user == "hero") {
                     for (let i = 0; i < scene.enemys.length; i++) {
-                        const enemy = scene.enemys[i];
-                        let saX = enemy.position.x - this.position.x;
-                        let saY = enemy.position.y - this.position.y;
-                        let saRadius = enemy.Size.width / 2 + this.radius;
-                        if (saX * saX + saY * saY < saRadius * saRadius) {
-                            enemy.damage(this, this.damage);
-                            this.mode = "end";
-                        }
+                        targets.push(scene.enemys[i]);
+                    }
+                }
+                else if (this.user == "any") {
+                    targets = [scene.hero];
+                    for (let i = 0; i < scene.enemys.length; i++) {
+                        targets.push(scene.enemys[i]);
+                    }
+                }
+                for (let i = 0; i < targets.length; i++) {
+                    let target = targets[i];
+                    let saX = target.position.x - this.position.x;
+                    let saY = target.position.y - this.position.y;
+                    let saRadius = target.Size.width / 2 + this.radius;
+                    if (saX * saX + saY * saY < saRadius * saRadius) {
+                        target.damage(this, this.damage);
+                        this.mode = "end";
                     }
                 }
                 this.Animation.Update();

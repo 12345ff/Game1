@@ -24,6 +24,22 @@ define(["require", "exports", "./Scene/SceneManager", "./Scene/TitleScene", "./l
             let touche = e.changedTouches[0];
             (_a = SceneManager_1.SceneManager.Instance.GetTopScene()) === null || _a === void 0 ? void 0 : _a.touchEnd(new GlobalData_1.GameTouch(html, new Position_1.Position(touche.clientX, touche.clientY)));
         }, { passive: false });
+        let gamecanvas = document.getElementById("GameUI");
+        gamecanvas === null || gamecanvas === void 0 ? void 0 : gamecanvas.addEventListener("touchstart", (e) => {
+            var _a;
+            let touche = e.touches[0];
+            (_a = SceneManager_1.SceneManager.Instance.GetTopScene()) === null || _a === void 0 ? void 0 : _a.touchStart(new GlobalData_1.GameTouch(html, new Position_1.Position(touche.clientX, touche.clientY)));
+        }, { passive: true });
+        gamecanvas === null || gamecanvas === void 0 ? void 0 : gamecanvas.addEventListener("touchmove", (e) => {
+            var _a;
+            let touche = e.changedTouches[0];
+            (_a = SceneManager_1.SceneManager.Instance.GetTopScene()) === null || _a === void 0 ? void 0 : _a.touchNow(new GlobalData_1.GameTouch(html, new Position_1.Position(touche.clientX, touche.clientY)));
+        }, { passive: true });
+        gamecanvas === null || gamecanvas === void 0 ? void 0 : gamecanvas.addEventListener("touchend", (e) => {
+            var _a;
+            let touche = e.changedTouches[0];
+            (_a = SceneManager_1.SceneManager.Instance.GetTopScene()) === null || _a === void 0 ? void 0 : _a.touchEnd(new GlobalData_1.GameTouch(html, new Position_1.Position(touche.clientX, touche.clientY)));
+        }, { passive: true });
         //タッチボタン
         let ok = document.getElementById("OkButton");
         let cansel = document.getElementById("CanselButton");
@@ -131,6 +147,7 @@ define(["require", "exports", "./Scene/SceneManager", "./Scene/TitleScene", "./l
                 GameScreen.style.maxHeight = "none";
             }
         }
+        console.log("起動完了");
     })();
 });
 //!Start!

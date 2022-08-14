@@ -20,14 +20,14 @@ define(["require", "exports", "./Scene", "./SceneManager", "./GameStartScene", "
             StartBtn.className = "TitleBtn";
             StartBtn.style.bottom = "220px";
             StartBtn.style.left = "20px";
-            StartBtn.textContent = "自由戦闘";
+            StartBtn.textContent = "フリーバトル";
             StartBtn.addEventListener("click", () => {
                 SceneManager_1.SceneManager.Instance.AddScene(new GameStartScene_1.GameSettingScene());
             });
             TutorialBtn.className = "TitleBtn";
             TutorialBtn.style.bottom = "120px";
             TutorialBtn.style.left = "20px";
-            TutorialBtn.textContent = "訓練";
+            TutorialBtn.textContent = "チュートリアル";
             TutorialBtn.addEventListener("click", () => {
                 if ((navigator.userAgent.indexOf('iPhone') > 0 || navigator.userAgent.indexOf('Android') > 0 && navigator.userAgent.indexOf('Mobile') > 0)
                     || (navigator.userAgent.indexOf('iPad') > 0 || navigator.userAgent.indexOf('Android') > 0)) {

@@ -83,6 +83,9 @@ define(["require", "exports", "../Base/Position", "../Base/Size", "../Base/Recta
             if (this.AtkAnimation != null) {
                 ctx.drawImage(this.AtkAnimation.image, this.position.x - this.AtkAnimation.size.width / 2, this.position.y - this.AtkAnimation.size.height / 2);
             }
+            if (this.condition["やけど"].on) {
+                ctx.fillText("やけど", this.position.x, this.position.y);
+            }
         }
     }
     exports.Enemy = Enemy;

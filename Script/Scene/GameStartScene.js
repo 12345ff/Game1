@@ -9,7 +9,7 @@ define(["require", "exports", "./Scene", "./SceneManager", "../Skill/Skills", ".
             this.HeroSkill1 = Skills_1.SkillList["skill1"];
             this.HeroSkill2 = Skills_1.SkillList["skill1"];
             this.HeroSkill3 = Skills_1.SkillList["skill1"];
-            this.HeroSkillSuper = Skills_1.SkillList["super1"];
+            this.HeroSkillSuper = Skills_1.SkillList["連続火炎弾"];
             this.enemyLevel = 1;
             this.EnemySkill1 = Skills_1.SkillList["skill1"];
             this.EnemySkill2 = Skills_1.SkillList["skill1"];
@@ -37,8 +37,8 @@ define(["require", "exports", "./Scene", "./SceneManager", "../Skill/Skills", ".
             EnemySettingBtn.textContent = "敵設定";
             FieldSettingBtn.textContent = "フィールド設定";
             CharacterSettingBtn.style.top = "150px";
-            EnemySettingBtn.style.top = "230px";
-            FieldSettingBtn.style.top = "310px";
+            EnemySettingBtn.style.top = "calc(150px + 10%)";
+            FieldSettingBtn.style.top = "calc(150px + 20%)";
             CharacterSettingBtn.addEventListener("click", () => {
                 CharacterSettingBtn.style.backgroundColor = "#A3ABD9";
                 EnemySettingBtn.style.backgroundColor = "#7E8BD9";
@@ -119,7 +119,7 @@ define(["require", "exports", "./Scene", "./SceneManager", "../Skill/Skills", ".
                             continue;
                     }
                     else {
-                        if (Skills_1.SkillList[key2].skillType == "superl")
+                        if (Skills_1.SkillList[key2].skillType == "super")
                             continue;
                     }
                     let opt = document.createElement("option");
@@ -186,7 +186,7 @@ define(["require", "exports", "./Scene", "./SceneManager", "../Skill/Skills", ".
                             continue;
                     }
                     else {
-                        if (Skills_1.SkillList[key2].skillType == "superl")
+                        if (Skills_1.SkillList[key2].skillType == "super")
                             continue;
                     }
                     let opt = document.createElement("option");
@@ -286,7 +286,7 @@ define(["require", "exports", "./Scene", "./SceneManager", "../Skill/Skills", ".
             StartBtn.textContent = "開始";
             StartBtn.style.position = "absolute";
             StartBtn.style.width = "250px";
-            StartBtn.style.height = "200px";
+            StartBtn.style.height = "20%px";
             StartBtn.style.bottom = "0px";
             StartBtn.style.left = "0px";
             StartBtn.style.fontSize = "50px";
