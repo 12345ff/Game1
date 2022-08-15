@@ -5,35 +5,34 @@ define(["require", "exports", "../Base/Position", "../Data/GlobalData", "./Objec
     class GameCharacter extends Object_1.GameObject {
         constructor(Lv, skill1, skill2, skill3, superSkill) {
             super();
-            this.friction = 0.8;
             this.condition = {
                 "やけど": new condition(),
-                "氷": new condition(),
-                "回復病": new condition(),
                 "麻痺": new condition(),
             };
             this.maxHP = 100 + 5 * Lv;
             this.hp = this.maxHP;
-            this.speed = Math.floor(3 + 0.05 * Lv);
-            this.OldPosition = this.position;
             this.atk = Math.floor(10 + 0.5 * Lv);
             this.def = 20 + Lv / 2;
-            this.atkRenge = 80 + 2 * Lv;
+            this.speed = Math.floor(3 + 0.05 * Lv);
+            this.friction = 0.8;
+            this.acceleration = 0.1;
+            this.rotate = 1;
+            this.direction = 1;
+            this.delay = 0;
+            this.atkRenge = 80 + 0.5 * Lv;
+            this.atkDelay = 30;
+            this.nowSpeed = new Position_1.Position(0, 0);
+            this.OldPosition = this.position;
+            this.rotateGoal = 0;
+            this.rotateDirection = 0;
+            this.targetPos = null;
             this.skill1 = new Skill_1.Skill(skill1.skillType, skill1.name, skill1.maxPoint, skill1.Deleay, skill1.saveImage, skill1.activeFunction);
             this.skill2 = new Skill_1.Skill(skill2.skillType, skill2.name, skill2.maxPoint, skill2.Deleay, skill2.saveImage, skill2.activeFunction);
             this.skill3 = new Skill_1.Skill(skill3.skillType, skill3.name, skill3.maxPoint, skill3.Deleay, skill3.saveImage, skill3.activeFunction);
             this.superSkill = superSkill;
-            this.nowSpeed = new Position_1.Position(0, 0);
-            this.targetPos = null;
-            this.atkDelay = 30;
-            this.delay = 0;
-            this.rotateGoal = 0;
-            this.rotate = 0;
-            this.acceleration = 0.1;
-            this.rotateDirection = 0;
-            this.direction = 0;
         }
         update(scene) {
+            //視点のターゲット追尾
             if (this.rotate != this.rotateGoal) {
                 this.rotate += this.rotateDirection * 3;
                 if (this.rotateGoal + 3 >= this.rotate && this.rotateGoal - 3 <= this.rotate) {
@@ -46,6 +45,7 @@ define(["require", "exports", "../Base/Position", "../Data/GlobalData", "./Objec
             }
         }
         draw(ctx) {
+            //基本描画
             super.draw(ctx);
             //hpバー
             let BarPos = new Position_1.Position(this.position.x, this.position.y - this.Size.height / 2 - 30);
@@ -64,6 +64,7 @@ define(["require", "exports", "../Base/Position", "../Data/GlobalData", "./Objec
             ctx.fillRect(BarPos.x - BarWidth / 2 + 2, BarPos.y + 2, BarWidth2, 16);
         }
         fieldCollision() {
+            //フィールドを超えないようにする
             if (this.position.x - this.Size.width / 2 < 0) {
                 this.position.x = this.Size.width / 2;
             }
@@ -77,7 +78,8 @@ define(["require", "exports", "../Base/Position", "../Data/GlobalData", "./Objec
                 this.position.y = GlobalData_1.GlobalData.Instance.ScreenSize.height - this.Size.height / 2;
             }
         }
-        damage(target, damage) {
+        damage(damage) {
+            //ダメージを食らった時の処理
             this.hp -= damage;
             if (this.hp < 0) {
                 this.hp = 0;

@@ -375,18 +375,21 @@ define(["require", "exports", "../Base/Position", "../Base/Size", "../Base/Recta
     });
     //強撃2
     Skills.super3 = new Skill_1.Skill("super", "super3", 12, 120, ResourceManager_1.ResourceManager.Instance.GetImage("i1"), (scene, executor, skill) => {
-        let image = ResourceManager_1.ResourceManager.Instance.GetImage("13");
-        skill.animation1 = new Animation_1.GameAnimation(0, new Size_1.Size(200, 200));
-        skill.animation1.setInterval(5);
-        skill.animation1.limit = 1;
-        _a.loadImage(skill.animation1, image, [
-            new Rectangle_1.Rectangle(0, 0, 480, 480), new Rectangle_1.Rectangle(480, 0, 480, 480), new Rectangle_1.Rectangle(960, 0, 480, 480), new Rectangle_1.Rectangle(1440, 0, 480, 480), new Rectangle_1.Rectangle(1920, 0, 480, 480),
-            new Rectangle_1.Rectangle(0, 480, 480, 480), new Rectangle_1.Rectangle(480, 480, 480, 480), new Rectangle_1.Rectangle(960, 480, 480, 480), new Rectangle_1.Rectangle(1440, 480, 480, 480), new Rectangle_1.Rectangle(1920, 480, 480, 480),
-            new Rectangle_1.Rectangle(0, 960, 480, 480), new Rectangle_1.Rectangle(480, 960, 480, 480), new Rectangle_1.Rectangle(960, 960, 480, 480), new Rectangle_1.Rectangle(1440, 960, 480, 480), new Rectangle_1.Rectangle(1920, 960, 480, 480),
-        ]);
-        let sin = Math.sin(executor.rotate * Math.PI / 180);
-        let cos = Math.cos(executor.rotate * Math.PI / 180);
-        scene.DamageObjs.push(new Rect_1.DamageRect(executor.Type, 150, new Size_1.Size(200, 200), executor.rotate, new Position_1.Position(cos * 50 + executor.position.x, sin * 50 + executor.position.y), 60, skill.animation1));
+        if (skill.nowFlame == 1) {
+            let image = ResourceManager_1.ResourceManager.Instance.GetImage("13");
+            skill.animation1 = new Animation_1.GameAnimation(0, new Size_1.Size(200, 200));
+            skill.animation1.setInterval(5);
+            skill.animation1.limit = 1;
+            _a.loadImage(skill.animation1, image, [
+                new Rectangle_1.Rectangle(0, 0, 480, 480), new Rectangle_1.Rectangle(480, 0, 480, 480), new Rectangle_1.Rectangle(960, 0, 480, 480), new Rectangle_1.Rectangle(1440, 0, 480, 480), new Rectangle_1.Rectangle(1920, 0, 480, 480),
+                new Rectangle_1.Rectangle(0, 480, 480, 480), new Rectangle_1.Rectangle(480, 480, 480, 480), new Rectangle_1.Rectangle(960, 480, 480, 480), new Rectangle_1.Rectangle(1440, 480, 480, 480), new Rectangle_1.Rectangle(1920, 480, 480, 480),
+                new Rectangle_1.Rectangle(0, 960, 480, 480), new Rectangle_1.Rectangle(480, 960, 480, 480), new Rectangle_1.Rectangle(960, 960, 480, 480), new Rectangle_1.Rectangle(1440, 960, 480, 480), new Rectangle_1.Rectangle(1920, 960, 480, 480),
+            ]);
+            let sin = Math.sin(executor.rotate * Math.PI / 180);
+            let cos = Math.cos(executor.rotate * Math.PI / 180);
+            scene.DamageObjs.push(new Rect_1.DamageRect(executor.Type, 150, new Size_1.Size(200, 200), executor.rotate, new Position_1.Position(cos * 50 + executor.position.x, sin * 50 + executor.position.y), 60, skill.animation1));
+        }
+        skill.nowFlame++;
     });
     exports.SkillList = {
         "skill1": Skills.skill1,

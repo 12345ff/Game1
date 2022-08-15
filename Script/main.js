@@ -32,9 +32,10 @@ define(["require", "exports", "./Scene/SceneManager", "./Scene/TitleScene", "./l
         }, { passive: true });
         gamecanvas === null || gamecanvas === void 0 ? void 0 : gamecanvas.addEventListener("touchmove", (e) => {
             var _a;
+            e.preventDefault();
             let touche = e.changedTouches[0];
             (_a = SceneManager_1.SceneManager.Instance.GetTopScene()) === null || _a === void 0 ? void 0 : _a.touchNow(new GlobalData_1.GameTouch(html, new Position_1.Position(touche.clientX, touche.clientY)));
-        }, { passive: true });
+        }, { passive: false });
         gamecanvas === null || gamecanvas === void 0 ? void 0 : gamecanvas.addEventListener("touchend", (e) => {
             var _a;
             let touche = e.changedTouches[0];
@@ -143,8 +144,10 @@ define(["require", "exports", "./Scene/SceneManager", "./Scene/TitleScene", "./l
             for (let i = 0; i < GameScreens.length; i++) {
                 let GameScreen = GameScreens[i];
                 GameScreen.style.width = "95%";
+                GameScreen.style.height = "auto";
                 GameScreen.style.maxWidth = "800px";
                 GameScreen.style.maxHeight = "none";
+                GameScreen.style.aspectRatio = "1 / 1";
             }
         }
         console.log("起動完了");

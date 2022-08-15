@@ -1,11 +1,11 @@
-define(["require", "exports", "../Base/Position", "../Base/Animation", "../Base/Size", "../Base/Rectangle", "../Base/ResourceManager"], function (require, exports, Position_1, Animation_1, Size_1, Rectangle_1, ResourceManager_1) {
+define(["require", "exports", "../Base/Position", "../Base/Size", "../Base/Rectangle", "../Base/Animation", "../Base/ResourceManager"], function (require, exports, Position_1, Size_1, Rectangle_1, Animation_1, ResourceManager_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.EnemyPattern = void 0;
     exports.EnemyPattern = {
         "normal": (self, scene) => {
             if (self.condition["やけど"].countdown()) {
-                self.damage(scene.hero, 5);
+                self.damage(5);
             }
             self.condition["麻痺"].countdown();
             if (self.interval[0] > 0) {
@@ -31,7 +31,7 @@ define(["require", "exports", "../Base/Position", "../Base/Animation", "../Base/
                         ]);
                         //差を計算
                         if (sa.x * sa.x + sa.y * sa.y < self.atkRenge * self.atkRenge) {
-                            scene.hero.damage(self, self.atk);
+                            scene.hero.damage(self.atk);
                         }
                         self.interval[0] = 30;
                         self.Status = "Stand";
@@ -75,7 +75,7 @@ define(["require", "exports", "../Base/Position", "../Base/Animation", "../Base/
         },
         "突進系": (self, scene) => {
             if (self.condition["やけど"].countdown()) {
-                self.damage(scene.hero, 5);
+                self.damage(5);
             }
             self.condition["麻痺"].countdown();
             self.nowSpeed.x *= 0.95;
@@ -103,7 +103,7 @@ define(["require", "exports", "../Base/Position", "../Base/Animation", "../Base/
                         ]);
                         //差を計算
                         if (sa.x * sa.x + sa.y * sa.y < self.atkRenge * self.atkRenge) {
-                            scene.hero.damage(self, self.atk);
+                            scene.hero.damage(self.atk);
                         }
                         self.Status = "Stand";
                     }
@@ -133,7 +133,7 @@ define(["require", "exports", "../Base/Position", "../Base/Animation", "../Base/
         },
         "ランダム": (self, scene) => {
             if (self.condition["やけど"].countdown()) {
-                self.damage(scene.hero, 5);
+                self.damage(5);
             }
             self.condition["麻痺"].countdown();
             self.nowSpeed.x *= 0.95;
@@ -159,7 +159,7 @@ define(["require", "exports", "../Base/Position", "../Base/Animation", "../Base/
                         ]);
                         //差を計算
                         if (sa.x * sa.x + sa.y * sa.y < self.atkRenge * self.atkRenge) {
-                            scene.hero.damage(self, self.atk);
+                            scene.hero.damage(self.atk);
                         }
                         self.Status = "Stand";
                     }
@@ -178,6 +178,9 @@ define(["require", "exports", "../Base/Position", "../Base/Animation", "../Base/
             }
         },
         "test": (self, scene) => {
+            if (self.condition["やけど"].countdown()) {
+                self.damage(5);
+            }
         },
     };
 });

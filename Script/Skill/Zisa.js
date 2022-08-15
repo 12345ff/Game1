@@ -69,7 +69,7 @@ define(["require", "exports", "./DamageObj", "../Base/Position", "../Data/Global
                         if (dx * dx + dy * dy <= circle.radius * circle.radius)
                             flag = true;
                         if (flag) {
-                            target.damage(this, this.damage);
+                            target.damage(this.damage);
                         }
                     }
                     this.mode = "end";

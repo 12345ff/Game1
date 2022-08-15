@@ -70,10 +70,7 @@ define(["require", "exports", "../Base/Position", "../Base/Size", "../Base/Recta
             const skill3 = keys.includes(GlobalData_1.GlobalData.Instance.KeySet["Skill3"]);
             const superskill = keys.includes(GlobalData_1.GlobalData.Instance.KeySet["SuperAttack"]);
             if (this.condition["やけど"].countdown()) {
-                if (scene.enemys.length > 0)
-                    this.damage(scene.enemys[0], 10);
-                else
-                    this.damage(this, 3);
+                this.damage(5);
             }
             if (!this.condition["麻痺"].on) {
                 //ボタン操作
@@ -124,7 +121,7 @@ define(["require", "exports", "../Base/Position", "../Base/Size", "../Base/Recta
                             }
                             if (atkFlag) {
                                 //↑角度内か
-                                target.damage(this, this.atk);
+                                target.damage(this.atk);
                                 if (this.skill1.point < this.skill1.maxPoint)
                                     this.skill1.point++;
                                 if (this.skill2.point < this.skill2.maxPoint)

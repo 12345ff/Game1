@@ -1,4 +1,4 @@
-define(["require", "exports", "../Scene/SceneManager", "../Scene/GameClearScene", "../Base/ResourceManager", "../Base/Animation", "../Base/Size", "../Base/Rectangle", "./GlobalData", "../Base/Position", "../Skill/Zisa", "../Skill/DamageField", "../Skill/Ball"], function (require, exports, SceneManager_1, GameClearScene_1, ResourceManager_1, Animation_1, Size_1, Rectangle_1, GlobalData_1, Position_1, Zisa_1, DamageField_1, Ball_1) {
+define(["require", "exports", "../Base/Size", "../Base/Position", "../Base/Rectangle", "../Base/Animation", "../Base/ResourceManager", "./GlobalData", "../Scene/GameClearScene", "../Scene/SceneManager", "../Skill/Zisa", "../Skill/DamageField", "../Skill/Ball"], function (require, exports, Size_1, Position_1, Rectangle_1, Animation_1, ResourceManager_1, GlobalData_1, GameClearScene_1, SceneManager_1, Zisa_1, DamageField_1, Ball_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.FieldFunction = exports.FieldGameEnd = void 0;

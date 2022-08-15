@@ -48,7 +48,7 @@ define(["require", "exports", "./DamageObj", "../Base/Position", "../Base/Size",
                     let saY = target.position.y - this.position.y;
                     let saRadius = target.Size.width / 2 + this.radius;
                     if (saX * saX + saY * saY < saRadius * saRadius) {
-                        target.damage(this, this.damage);
+                        target.damage(this.damage);
                         this.mode = "end";
                     }
                 }

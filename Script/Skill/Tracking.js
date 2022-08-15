@@ -1,4 +1,4 @@
-define(["require", "exports", "./DamageObj", "../Base/Position", "../Base/Size", "../Data/GlobalData"], function (require, exports, DamageObj_1, Position_1, Size_1, GlobalData_1) {
+define(["require", "exports", "../Base/Position", "../Base/Size", "../Base/ChangeDirection", "./DamageObj", "../Data/GlobalData"], function (require, exports, Position_1, Size_1, ChangeDirection_1, DamageObj_1, GlobalData_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.TrackingBall = void 0;
@@ -35,11 +35,12 @@ define(["require", "exports", "./DamageObj", "../Base/Position", "../Base/Size",
                         target = scene.hero;
                     }
                     if (target != null) {
-                        let radian = Math.atan2(target.position.y - this.position.y, target.position.x - this.position.x);
-                        let rotate = parseInt((radian * (180 / Math.PI)).toString());
-                        let cos2 = Math.cos(rotate * Math.PI / 180);
-                        let sin2 = Math.sin(rotate * Math.PI / 180);
-                        this.TrackingSpeed = new Position_1.Position(cos2 * this.TrackingSpeed.x, sin2 * this.TrackingSpeed.y);
+                        // let radian = Math.atan2(target.position.y - this.position.y, target.position.x - this.position.x);
+                        // let rotate = parseInt((radian * (180 / Math.PI)).toString());
+                        // let cos2 = Math.cos(rotate * Math.PI / 180);
+                        // let sin2 = Math.sin(rotate * Math.PI / 180);
+                        let direction = (0, ChangeDirection_1.ChangeDirection)(new Position_1.Position(target.position.x - this.position.x, target.position.y - this.position.y));
+                        this.TrackingSpeed = new Position_1.Position(direction.x * this.TrackingSpeed.x, direction.y * this.TrackingSpeed.y);
                         this.mode = "tracking";
                     }
                     else {
@@ -62,7 +63,7 @@ define(["require", "exports", "./DamageObj", "../Base/Position", "../Base/Size",
                     let saY = hero.position.y - this.position.y;
                     let saRadius = hero.Size.width / 2 + this.radius;
                     if (saX * saX + saY * saY < saRadius * saRadius) {
-                        hero.damage(this, this.damage);
+                        hero.damage(this.damage);
                         this.mode = "end";
                     }
                 }
@@ -73,7 +74,7 @@ define(["require", "exports", "./DamageObj", "../Base/Position", "../Base/Size",
                         let saY = enemy.position.y - this.position.y;
                         let saRadius = enemy.Size.width / 2 + this.radius;
                         if (saX * saX + saY * saY < saRadius * saRadius) {
-                            enemy.damage(this, this.damage);
+                            enemy.damage(this.damage);
                             this.mode = "end";
                         }
                     }

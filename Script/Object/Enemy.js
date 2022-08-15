@@ -1,4 +1,4 @@
-define(["require", "exports", "../Base/Position", "../Base/Size", "../Base/Rectangle", "../Base/Animation", "../Data/GlobalData", "./Character", "../Base/ResourceManager"], function (require, exports, Position_1, Size_1, Rectangle_1, Animation_1, GlobalData_1, Character_1, ResourceManager_1) {
+define(["require", "exports", "../Base/Position", "../Base/Size", "../Base/Rectangle", "../Base/Animation", "../Base/ResourceManager", "../Data/GlobalData", "./Character"], function (require, exports, Position_1, Size_1, Rectangle_1, Animation_1, ResourceManager_1, GlobalData_1, Character_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Enemy = void 0;
@@ -9,14 +9,14 @@ define(["require", "exports", "../Base/Position", "../Base/Size", "../Base/Recta
             this.AtkAnimation = null;
             this.interval = [15, 15];
             this.OldRotate = 0;
-            this.hp += 300;
-            this.maxHP += 300;
-            this.speed = 1 + Lv * 0.1;
+            this.hp += 50 * Lv;
+            this.maxHP += 50 * Lv;
+            this.speed = 1 + Lv * 0.2;
             this.Status = "Stand";
             this.Size = new Size_1.Size(100, 100);
             this.delete = false;
-            this.enemyPattern = enemyPattern;
             this.SaveAtkAnimePos = new Position_1.Position(0, 0);
+            this.enemyPattern = enemyPattern;
             this.StandAnimation = new Animation_1.GameAnimation(0, new Size_1.Size(100, 100));
             this.WorkAnimation = new Animation_1.GameAnimation(0, new Size_1.Size(100, 100));
             this.AttackAnimation = new Animation_1.GameAnimation(0, new Size_1.Size(100, 100));
@@ -63,8 +63,8 @@ define(["require", "exports", "../Base/Position", "../Base/Size", "../Base/Recta
             this.position.x += this.nowSpeed.x;
             this.position.y += this.nowSpeed.y;
         }
-        damage(target, damage) {
-            super.damage(target, damage);
+        damage(damage) {
+            super.damage(damage);
             if (this.hp <= 0) {
                 this.hp = 0;
                 this.delete = true;
